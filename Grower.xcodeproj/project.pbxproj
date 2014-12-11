@@ -11,6 +11,9 @@
 		20A79C361A387F5C008C0197 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 20A79C351A387F5B008C0197 /* Images.xcassets */; };
 		20A79C391A387F5C008C0197 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 20A79C371A387F5C008C0197 /* MainMenu.xib */; };
 		20A79C451A387F5C008C0197 /* GrowerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20A79C441A387F5C008C0197 /* GrowerTests.swift */; };
+		20A79C5F1A387FB5008C0197 /* SwiftCL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 20A79C561A387FA6008C0197 /* SwiftCL.framework */; };
+		20A79C611A38806F008C0197 /* Simulator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20A79C601A38806F008C0197 /* Simulator.swift */; };
+		20A79C641A388490008C0197 /* render.cl in Resources */ = {isa = PBXBuildFile; fileRef = 20A79C621A388480008C0197 /* render.cl */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -20,6 +23,41 @@
 			proxyType = 1;
 			remoteGlobalIDString = 20A79C2D1A387F5B008C0197;
 			remoteInfo = Grower;
+		};
+		20A79C551A387FA6008C0197 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 20A79C4E1A387FA6008C0197 /* SwiftCL.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 206CBB691A31976C0077D16A;
+			remoteInfo = SwiftCL;
+		};
+		20A79C571A387FA6008C0197 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 20A79C4E1A387FA6008C0197 /* SwiftCL.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 206CBB741A31976C0077D16A;
+			remoteInfo = SwiftCLTests;
+		};
+		20A79C591A387FA6008C0197 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 20A79C4E1A387FA6008C0197 /* SwiftCL.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 206CBB9D1A3198CF0077D16A;
+			remoteInfo = SampleSwiftCLApp;
+		};
+		20A79C5B1A387FA6008C0197 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 20A79C4E1A387FA6008C0197 /* SwiftCL.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 206CBBAC1A3198D00077D16A;
+			remoteInfo = SampleSwiftCLAppTests;
+		};
+		20A79C5D1A387FB0008C0197 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 20A79C4E1A387FA6008C0197 /* SwiftCL.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 206CBB681A31976C0077D16A;
+			remoteInfo = SwiftCL;
 		};
 /* End PBXContainerItemProxy section */
 
@@ -32,6 +70,9 @@
 		20A79C3E1A387F5C008C0197 /* GrowerTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = GrowerTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		20A79C431A387F5C008C0197 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		20A79C441A387F5C008C0197 /* GrowerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GrowerTests.swift; sourceTree = "<group>"; };
+		20A79C4E1A387FA6008C0197 /* SwiftCL.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SwiftCL.xcodeproj; path = ../SwiftCL/SwiftCL.xcodeproj; sourceTree = "<group>"; };
+		20A79C601A38806F008C0197 /* Simulator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Simulator.swift; sourceTree = "<group>"; };
+		20A79C621A388480008C0197 /* render.cl */ = {isa = PBXFileReference; explicitFileType = sourcecode.c; fileEncoding = 4; path = render.cl; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -39,6 +80,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				20A79C5F1A387FB5008C0197 /* SwiftCL.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -55,6 +97,7 @@
 		20A79C251A387F5B008C0197 = {
 			isa = PBXGroup;
 			children = (
+				20A79C4E1A387FA6008C0197 /* SwiftCL.xcodeproj */,
 				20A79C301A387F5B008C0197 /* Grower */,
 				20A79C411A387F5C008C0197 /* GrowerTests */,
 				20A79C2F1A387F5B008C0197 /* Products */,
@@ -77,6 +120,8 @@
 				20A79C351A387F5B008C0197 /* Images.xcassets */,
 				20A79C371A387F5C008C0197 /* MainMenu.xib */,
 				20A79C311A387F5B008C0197 /* Supporting Files */,
+				20A79C601A38806F008C0197 /* Simulator.swift */,
+				20A79C621A388480008C0197 /* render.cl */,
 			);
 			path = Grower;
 			sourceTree = "<group>";
@@ -106,6 +151,17 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
+		20A79C4F1A387FA6008C0197 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				20A79C561A387FA6008C0197 /* SwiftCL.framework */,
+				20A79C581A387FA6008C0197 /* SwiftCLTests.xctest */,
+				20A79C5A1A387FA6008C0197 /* SampleSwiftCLApp.app */,
+				20A79C5C1A387FA6008C0197 /* SampleSwiftCLAppTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -120,6 +176,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				20A79C5E1A387FB0008C0197 /* PBXTargetDependency */,
 			);
 			name = Grower;
 			productName = Grower;
@@ -173,6 +230,12 @@
 			mainGroup = 20A79C251A387F5B008C0197;
 			productRefGroup = 20A79C2F1A387F5B008C0197 /* Products */;
 			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = 20A79C4F1A387FA6008C0197 /* Products */;
+					ProjectRef = 20A79C4E1A387FA6008C0197 /* SwiftCL.xcodeproj */;
+				},
+			);
 			projectRoot = "";
 			targets = (
 				20A79C2D1A387F5B008C0197 /* Grower */,
@@ -181,11 +244,43 @@
 		};
 /* End PBXProject section */
 
+/* Begin PBXReferenceProxy section */
+		20A79C561A387FA6008C0197 /* SwiftCL.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = SwiftCL.framework;
+			remoteRef = 20A79C551A387FA6008C0197 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		20A79C581A387FA6008C0197 /* SwiftCLTests.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = SwiftCLTests.xctest;
+			remoteRef = 20A79C571A387FA6008C0197 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		20A79C5A1A387FA6008C0197 /* SampleSwiftCLApp.app */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.application;
+			path = SampleSwiftCLApp.app;
+			remoteRef = 20A79C591A387FA6008C0197 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		20A79C5C1A387FA6008C0197 /* SampleSwiftCLAppTests.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = SampleSwiftCLAppTests.xctest;
+			remoteRef = 20A79C5B1A387FA6008C0197 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
+
 /* Begin PBXResourcesBuildPhase section */
 		20A79C2C1A387F5B008C0197 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				20A79C641A388490008C0197 /* render.cl in Resources */,
 				20A79C361A387F5C008C0197 /* Images.xcassets in Resources */,
 				20A79C391A387F5C008C0197 /* MainMenu.xib in Resources */,
 			);
@@ -205,6 +300,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				20A79C611A38806F008C0197 /* Simulator.swift in Sources */,
 				20A79C341A387F5B008C0197 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -224,6 +320,11 @@
 			isa = PBXTargetDependency;
 			target = 20A79C2D1A387F5B008C0197 /* Grower */;
 			targetProxy = 20A79C3F1A387F5C008C0197 /* PBXContainerItemProxy */;
+		};
+		20A79C5E1A387FB0008C0197 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = SwiftCL;
+			targetProxy = 20A79C5D1A387FB0008C0197 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -320,10 +421,12 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				COMBINE_HIDPI_IMAGES = YES;
 				INFOPLIST_FILE = Grower/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
 			name = Debug;
 		};
@@ -331,6 +434,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				COMBINE_HIDPI_IMAGES = YES;
 				INFOPLIST_FILE = Grower/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
@@ -393,6 +497,7 @@
 				20A79C4A1A387F5C008C0197 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		20A79C4B1A387F5C008C0197 /* Build configuration list for PBXNativeTarget "GrowerTests" */ = {
 			isa = XCConfigurationList;
@@ -401,6 +506,7 @@
 				20A79C4D1A387F5C008C0197 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
