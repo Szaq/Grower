@@ -15,7 +15,7 @@ class Simulator {
   let queue: CommandQueue!
   let renderKernel: Kernel!
   let positions: Buffer<Float>!
-  let pixels: Buffer<Float>!
+  let pixels: Buffer<UInt8>!
   let width: cl_int
   let height: cl_int
   
@@ -23,8 +23,15 @@ class Simulator {
     self.width = cl_int(width)
     self.height = cl_int(height)
     
-    if let context = Context(fromType: CL_DEVICE_TYPE_GPU, properties: nil, errorHandler: errorHandler("Context")) {
-      if let queue = CommandQueue(context: context, device: nil, properties: 0, errorHandler: errorHandler("CommandQueue")) {
+    if let context = Context(
+      fromType: CL_DEVICE_TYPE_GPU,
+      properties: nil,
+      errorHandler: errorHandler("Context")) {
+      if let queue = CommandQueue(
+        context: context,
+        device: nil,
+        properties: 0,
+        errorHandler: errorHandler("CommandQueue")) {
         self.queue = queue
         
         if let program = Program(
@@ -37,11 +44,19 @@ class Simulator {
             }
         }
         
-        if let buffer = Buffer<cl_float>(context: context, count: Int(width * height), readOnly: false, errorHandler: errorHandler("Pixels buffer")) {
+        if let buffer = Buffer<UInt8>(
+          context: context,
+          count: Int(width * height * 4),
+          readOnly: false,
+          errorHandler: errorHandler("Pixels buffer")) {
           pixels = buffer
         }
         
-        if let buffer = Buffer<cl_float>(context: context, count: 4 * 4, readOnly: true, errorHandler: errorHandler("Positions buffer")) {
+        if let buffer = Buffer<cl_float>(
+          context: context,
+          count: 4 * 4,
+          readOnly: true,
+          errorHandler: errorHandler("Positions buffer")) {
           positions = buffer
         }
         
@@ -60,12 +75,32 @@ class Simulator {
         return false
       }
     }
-    return queue.enqueueRead(positions) == CL_SUCCESS
+    return queue.enqueueRead(pixels) == CL_SUCCESS
   }
   
-  func errorHandler(label:String)(param:Int32, result:cl_int) {
-    println("\(label) error for param \(param): \(result)")
+  func currentImage() -> NSImage? {
+    if let bitmap = NSBitmapImageRep(
+      bitmapDataPlanes: nil,
+      pixelsWide: Int(width),
+      pixelsHigh: Int(height),
+      bitsPerSample: 8,
+      samplesPerPixel: 4,
+      hasAlpha: true,
+      isPlanar: false,
+      colorSpaceName: NSDeviceRGBColorSpace,
+      bitmapFormat: NSBitmapFormat.NSAlphaNonpremultipliedBitmapFormat,
+      bytesPerRow:Int(4 * width),
+      bitsPerPixel: 32) {
+        
+        memcpy(bitmap.bitmapData, pixels.data, UInt(width * height * 4));
+        let image = NSImage()
+        image.addRepresentation(bitmap)
+        return image
+    }
+    
+    return nil
   }
+  
   func errorHandler(label:String)(param:Int32, result:cl_int) {
     println("\(label) error for param \(param): \(result)")
   }

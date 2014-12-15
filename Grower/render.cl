@@ -6,9 +6,66 @@
 //  Copyright (c) 2014 Spinal Development. All rights reserved.
 //
 
-__kernel void render(int width, int height, __global float *pixels, __global float4 *positions) {
-  int x = get_global_idx(0);
-  int y = get_global_idx(1);
+typedef struct {
+  float3 origin;
+  float padding1;
+  //Normalized direction vector
+  float3 dir;
+  float padding2;
+} ray;
+
+
+float intersect_sphere(ray r, float4 s) {
+
   
-  pixels[y * width + x] = 0.5f;
+  float3 origin_center = r.origin - s.xyz;
+   
+  float dirs_dot = dot(r.dir, origin_center);
+  float origin_center_len = length(origin_center);
+  
+  
+  float delta = dirs_dot * dirs_dot + s.z * s.z - origin_center_len * origin_center_len;
+  
+
+  
+  if (delta < 0) {
+    return -1;
+  }
+  return 0;
+  /*
+   
+  
+  if (delta == 0) {
+    return -dirs_dot;
+  }
+  
+  delta = sqrt(delta);
+  
+  float d1 = -dirs_dot - delta;
+  float d2 = -dirs_dot + delta;
+  
+  if (d2 < d1 && d2 > 0) {
+    d1 = d2;
+  }
+  
+  return d1;
+   */
+}
+
+
+//sphere is defined by it's position float3 and radius
+__kernel void render(int width, int height, __global uchar4 *pixels, __global float4 *spheres) {
+  int x = get_global_id(0);
+  int y = get_global_id(1);
+  
+  ray r;
+  r.origin = (float3)(x, y, 0);
+  r.dir = (float3)(0, 0, 1);
+  
+  float4 s = (float4)(0, 0, 0, 100);
+  
+  uchar4 color = intersect_sphere(r, s) > 0 ? (uchar4)(128, 128, 128, 255) : (uchar4)(0,0,0,255);
+  
+  pixels[y * width + x] = color;
+  
 }
