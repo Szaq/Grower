@@ -24,16 +24,13 @@ float intersect_sphere(ray r, float4 s) {
   float origin_center_len = length(origin_center);
   
   
-  float delta = dirs_dot * dirs_dot + s.z * s.z - origin_center_len * origin_center_len;
+  float delta = dirs_dot * dirs_dot + s.w * s.w - origin_center_len * origin_center_len;
   
 
   
   if (delta < 0) {
     return -1;
   }
-  return 0;
-  /*
-   
   
   if (delta == 0) {
     return -dirs_dot;
@@ -49,7 +46,6 @@ float intersect_sphere(ray r, float4 s) {
   }
   
   return d1;
-   */
 }
 
 
@@ -62,9 +58,9 @@ __kernel void render(int width, int height, __global uchar4 *pixels, __global fl
   r.origin = (float3)(x, y, 0);
   r.dir = (float3)(0, 0, 1);
   
-  float4 s = (float4)(0, 0, 0, 100);
+  float4 s = (float4)(0, 0, 200, 100);
   
-  uchar4 color = intersect_sphere(r, s) > 0 ? (uchar4)(128, 128, 128, 255) : (uchar4)(0,0,0,255);
+  uchar4 color = intersect_sphere(r, s) > 0 ? (uchar4)(255, 255, 255, 255) : (uchar4)(0,0,0,255);
   
   pixels[y * width + x] = color;
   
