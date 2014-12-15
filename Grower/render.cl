@@ -41,7 +41,7 @@ float intersect_sphere(ray r, float4 s) {
   float d1 = -dirs_dot - delta;
   float d2 = -dirs_dot + delta;
   
-  if (d2 < d1 && d2 > 0) {
+  if ((d2 < d1 || d1 < 0) && d2 > 0) {
     d1 = d2;
   }
   
@@ -58,7 +58,7 @@ __kernel void render(int width, int height, __global uchar4 *pixels, __global fl
   r.origin = (float3)(x, y, 0);
   r.dir = (float3)(0, 0, 1);
   
-  float4 s = (float4)(0, 0, 200, 100);
+  float4 s = (float4)(0, 0, 0, 100);
   
   uchar4 color = intersect_sphere(r, s) > 0 ? (uchar4)(255, 255, 255, 255) : (uchar4)(0,0,0,255);
   
