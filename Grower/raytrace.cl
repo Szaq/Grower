@@ -71,7 +71,9 @@ __kernel void render(int width, int height, __global uchar4 *pixels,
 
   ray r;
   r.origin = (float3)(0, 0, 0);
-  r.dir = normalize((float3)((2*x - width) * tan(fovX)/ width , (2*y-height)* tan(fovY) / height , 1));
+  r.dir = normalize((float3)((2 * x - width)  * tan(fovX) / width ,
+                             (2 * y - height) * tan(fovY) / height ,
+                             1));
 
   
   //Find nearest eye-ray intersection
