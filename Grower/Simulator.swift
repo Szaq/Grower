@@ -36,7 +36,7 @@ class Simulator {
         
         if let program = Program(
           context: context,
-          loadFromMainBundle: "render.cl",
+          loadFromMainBundle: "raytrace.cl",
           compilationType: .CompileAndLink,
           errorHandler: errorHandler("Program")) {
             if let kernel = Kernel(program: program, name: "render", errorHandler: errorHandler("Kernel")) {
@@ -56,10 +56,9 @@ class Simulator {
           context: context,
           copyFrom:
           [
-            0, 0, 200, 100,
+            -50, 10, 200, 20,
             0, -1000010, 0, 1000000,
-            200, 100, 300, 200,
-            
+            100, 40, 300, 50,
           ],
           readOnly: true,
           errorHandler: errorHandler("Positions buffer")) {

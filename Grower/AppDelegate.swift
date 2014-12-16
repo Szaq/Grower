@@ -14,7 +14,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
   @IBOutlet weak var window: NSWindow!
   @IBOutlet weak var imageView: NSImageView!
 
-  let sim = Simulator(width: 640, height: 480)
+  let sim = Simulator(width: 2048, height: 1024)
 
   func applicationDidFinishLaunching(aNotification: NSNotification) {
 

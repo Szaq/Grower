@@ -670,19 +670,25 @@
         <window title="Grower" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" releasedWhenClosed="NO" animationBehavior="default" id="QvC-M9-y7g">
             <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES"/>
             <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
-            <rect key="contentRect" x="335" y="390" width="480" height="360"/>
+            <rect key="contentRect" x="335" y="390" width="748" height="574"/>
             <rect key="screenRect" x="0.0" y="0.0" width="1920" height="1177"/>
             <view key="contentView" id="EiT-Mj-1SZ">
-                <rect key="frame" x="0.0" y="0.0" width="480" height="360"/>
+                <rect key="frame" x="0.0" y="0.0" width="748" height="574"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="FAt-Kh-3fF" colorLabel="IBBuiltInLabel-Red">
-                        <rect key="frame" x="0.0" y="0.0" width="480" height="360"/>
+                    <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="FAt-Kh-3fF" colorLabel="IBBuiltInLabel-Red">
+                        <rect key="frame" x="0.0" y="0.0" width="748" height="574"/>
                         <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" id="Mqp-up-itN"/>
                     </imageView>
                 </subviews>
+                <constraints>
+                    <constraint firstAttribute="trailing" secondItem="FAt-Kh-3fF" secondAttribute="trailing" id="6Li-S9-Sqr"/>
+                    <constraint firstAttribute="bottom" secondItem="FAt-Kh-3fF" secondAttribute="bottom" id="8hi-5I-Sgq"/>
+                    <constraint firstItem="FAt-Kh-3fF" firstAttribute="top" secondItem="EiT-Mj-1SZ" secondAttribute="top" id="i68-iT-FQO"/>
+                    <constraint firstItem="FAt-Kh-3fF" firstAttribute="leading" secondItem="EiT-Mj-1SZ" secondAttribute="leading" id="mN3-Tr-wNH"/>
+                </constraints>
             </view>
-            <point key="canvasLocation" x="242" y="451"/>
+            <point key="canvasLocation" x="283" y="526"/>
         </window>
     </objects>
 </document>

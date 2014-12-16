@@ -16,8 +16,8 @@
 		20A79C391A387F5C008C0197 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 20A79C371A387F5C008C0197 /* MainMenu.xib */; };
 		20A79C451A387F5C008C0197 /* GrowerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20A79C441A387F5C008C0197 /* GrowerTests.swift */; };
 		20A79C611A38806F008C0197 /* Simulator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20A79C601A38806F008C0197 /* Simulator.swift */; };
-		20A79C641A388490008C0197 /* render.cl in Resources */ = {isa = PBXBuildFile; fileRef = 20A79C621A388480008C0197 /* render.cl */; };
-		399F5CD81A3F443A0075F0B1 /* SwiftCL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 399F5CCF1A3F442C0075F0B1 /* SwiftCL.framework */; };
+		20A79C641A388490008C0197 /* raytrace.cl in Resources */ = {isa = PBXBuildFile; fileRef = 20A79C621A388480008C0197 /* raytrace.cl */; };
+		20E00B311A40184700F20C19 /* SwiftCL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 20E00B281A40183C00F20C19 /* SwiftCL.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -28,37 +28,37 @@
 			remoteGlobalIDString = 20A79C2D1A387F5B008C0197;
 			remoteInfo = Grower;
 		};
-		399F5CCE1A3F442C0075F0B1 /* PBXContainerItemProxy */ = {
+		20E00B271A40183C00F20C19 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = 399F5CC71A3F442C0075F0B1 /* SwiftCL.xcodeproj */;
+			containerPortal = 20E00B201A40183C00F20C19 /* SwiftCL.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = 206CBB691A31976C0077D16A;
 			remoteInfo = SwiftCL;
 		};
-		399F5CD01A3F442C0075F0B1 /* PBXContainerItemProxy */ = {
+		20E00B291A40183C00F20C19 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = 399F5CC71A3F442C0075F0B1 /* SwiftCL.xcodeproj */;
+			containerPortal = 20E00B201A40183C00F20C19 /* SwiftCL.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = 206CBB741A31976C0077D16A;
 			remoteInfo = SwiftCLTests;
 		};
-		399F5CD21A3F442C0075F0B1 /* PBXContainerItemProxy */ = {
+		20E00B2B1A40183C00F20C19 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = 399F5CC71A3F442C0075F0B1 /* SwiftCL.xcodeproj */;
+			containerPortal = 20E00B201A40183C00F20C19 /* SwiftCL.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = 206CBB9D1A3198CF0077D16A;
 			remoteInfo = SampleSwiftCLApp;
 		};
-		399F5CD41A3F442C0075F0B1 /* PBXContainerItemProxy */ = {
+		20E00B2D1A40183C00F20C19 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = 399F5CC71A3F442C0075F0B1 /* SwiftCL.xcodeproj */;
+			containerPortal = 20E00B201A40183C00F20C19 /* SwiftCL.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = 206CBBAC1A3198D00077D16A;
 			remoteInfo = SampleSwiftCLAppTests;
 		};
-		399F5CD61A3F44350075F0B1 /* PBXContainerItemProxy */ = {
+		20E00B2F1A40184200F20C19 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = 399F5CC71A3F442C0075F0B1 /* SwiftCL.xcodeproj */;
+			containerPortal = 20E00B201A40183C00F20C19 /* SwiftCL.xcodeproj */;
 			proxyType = 1;
 			remoteGlobalIDString = 206CBB681A31976C0077D16A;
 			remoteInfo = SwiftCL;
@@ -79,8 +79,8 @@
 		20A79C431A387F5C008C0197 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		20A79C441A387F5C008C0197 /* GrowerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GrowerTests.swift; sourceTree = "<group>"; };
 		20A79C601A38806F008C0197 /* Simulator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Simulator.swift; sourceTree = "<group>"; };
-		20A79C621A388480008C0197 /* render.cl */ = {isa = PBXFileReference; explicitFileType = sourcecode.c; fileEncoding = 4; path = render.cl; sourceTree = "<group>"; };
-		399F5CC71A3F442C0075F0B1 /* SwiftCL.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SwiftCL.xcodeproj; path = "../swift-cl/SwiftCL.xcodeproj"; sourceTree = "<group>"; };
+		20A79C621A388480008C0197 /* raytrace.cl */ = {isa = PBXFileReference; explicitFileType = sourcecode.c; fileEncoding = 4; path = raytrace.cl; sourceTree = "<group>"; };
+		20E00B201A40183C00F20C19 /* SwiftCL.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SwiftCL.xcodeproj; path = ../../SwiftCL/SwiftCL.xcodeproj; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -88,7 +88,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				399F5CD81A3F443A0075F0B1 /* SwiftCL.framework in Frameworks */,
+				20E00B311A40184700F20C19 /* SwiftCL.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -105,7 +105,6 @@
 		20A79C251A387F5B008C0197 = {
 			isa = PBXGroup;
 			children = (
-				399F5CC71A3F442C0075F0B1 /* SwiftCL.xcodeproj */,
 				20A79C301A387F5B008C0197 /* Grower */,
 				20A79C411A387F5C008C0197 /* GrowerTests */,
 				20A79C2F1A387F5B008C0197 /* Products */,
@@ -124,12 +123,13 @@
 		20A79C301A387F5B008C0197 /* Grower */ = {
 			isa = PBXGroup;
 			children = (
+				20E00B201A40183C00F20C19 /* SwiftCL.xcodeproj */,
 				20A79C331A387F5B008C0197 /* AppDelegate.swift */,
 				20A79C351A387F5B008C0197 /* Images.xcassets */,
 				20A79C371A387F5C008C0197 /* MainMenu.xib */,
 				20A79C311A387F5B008C0197 /* Supporting Files */,
 				20A79C601A38806F008C0197 /* Simulator.swift */,
-				20A79C621A388480008C0197 /* render.cl */,
+				20A79C621A388480008C0197 /* raytrace.cl */,
 				204276411A3B105700DAC51C /* PackedStruct.swift */,
 				204276461A3B2B3A00DAC51C /* Float3.swift */,
 				204276481A3B3DEA00DAC51C /* PackedStructMemory.swift */,
@@ -163,13 +163,13 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
-		399F5CC81A3F442C0075F0B1 /* Products */ = {
+		20E00B211A40183C00F20C19 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				399F5CCF1A3F442C0075F0B1 /* SwiftCL.framework */,
-				399F5CD11A3F442C0075F0B1 /* SwiftCLTests.xctest */,
-				399F5CD31A3F442C0075F0B1 /* SampleSwiftCLApp.app */,
-				399F5CD51A3F442C0075F0B1 /* SampleSwiftCLAppTests.xctest */,
+				20E00B281A40183C00F20C19 /* SwiftCL.framework */,
+				20E00B2A1A40183C00F20C19 /* SwiftCLTests.xctest */,
+				20E00B2C1A40183C00F20C19 /* SampleSwiftCLApp.app */,
+				20E00B2E1A40183C00F20C19 /* SampleSwiftCLAppTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -188,7 +188,7 @@
 			buildRules = (
 			);
 			dependencies = (
-				399F5CD71A3F44350075F0B1 /* PBXTargetDependency */,
+				20E00B301A40184200F20C19 /* PBXTargetDependency */,
 			);
 			name = Grower;
 			productName = Grower;
@@ -244,8 +244,8 @@
 			projectDirPath = "";
 			projectReferences = (
 				{
-					ProductGroup = 399F5CC81A3F442C0075F0B1 /* Products */;
-					ProjectRef = 399F5CC71A3F442C0075F0B1 /* SwiftCL.xcodeproj */;
+					ProductGroup = 20E00B211A40183C00F20C19 /* Products */;
+					ProjectRef = 20E00B201A40183C00F20C19 /* SwiftCL.xcodeproj */;
 				},
 			);
 			projectRoot = "";
@@ -257,32 +257,32 @@
 /* End PBXProject section */
 
 /* Begin PBXReferenceProxy section */
-		399F5CCF1A3F442C0075F0B1 /* SwiftCL.framework */ = {
+		20E00B281A40183C00F20C19 /* SwiftCL.framework */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.framework;
 			path = SwiftCL.framework;
-			remoteRef = 399F5CCE1A3F442C0075F0B1 /* PBXContainerItemProxy */;
+			remoteRef = 20E00B271A40183C00F20C19 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		399F5CD11A3F442C0075F0B1 /* SwiftCLTests.xctest */ = {
+		20E00B2A1A40183C00F20C19 /* SwiftCLTests.xctest */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.cfbundle;
 			path = SwiftCLTests.xctest;
-			remoteRef = 399F5CD01A3F442C0075F0B1 /* PBXContainerItemProxy */;
+			remoteRef = 20E00B291A40183C00F20C19 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		399F5CD31A3F442C0075F0B1 /* SampleSwiftCLApp.app */ = {
+		20E00B2C1A40183C00F20C19 /* SampleSwiftCLApp.app */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.application;
 			path = SampleSwiftCLApp.app;
-			remoteRef = 399F5CD21A3F442C0075F0B1 /* PBXContainerItemProxy */;
+			remoteRef = 20E00B2B1A40183C00F20C19 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		399F5CD51A3F442C0075F0B1 /* SampleSwiftCLAppTests.xctest */ = {
+		20E00B2E1A40183C00F20C19 /* SampleSwiftCLAppTests.xctest */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.cfbundle;
 			path = SampleSwiftCLAppTests.xctest;
-			remoteRef = 399F5CD41A3F442C0075F0B1 /* PBXContainerItemProxy */;
+			remoteRef = 20E00B2D1A40183C00F20C19 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 /* End PBXReferenceProxy section */
@@ -292,7 +292,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				20A79C641A388490008C0197 /* render.cl in Resources */,
+				20A79C641A388490008C0197 /* raytrace.cl in Resources */,
 				20A79C361A387F5C008C0197 /* Images.xcassets in Resources */,
 				20A79C391A387F5C008C0197 /* MainMenu.xib in Resources */,
 			);
@@ -337,10 +337,10 @@
 			target = 20A79C2D1A387F5B008C0197 /* Grower */;
 			targetProxy = 20A79C3F1A387F5C008C0197 /* PBXContainerItemProxy */;
 		};
-		399F5CD71A3F44350075F0B1 /* PBXTargetDependency */ = {
+		20E00B301A40184200F20C19 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			name = SwiftCL;
-			targetProxy = 399F5CD61A3F44350075F0B1 /* PBXContainerItemProxy */;
+			targetProxy = 20E00B2F1A40184200F20C19 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
