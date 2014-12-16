@@ -44,19 +44,35 @@ float intersect_sphere(ray r, float4 s) {
   return d1;
 }
 
+float nearest_intersection(ray r, int sphere_count, __global float4 *spheres, int *objID) {
+  float minT = FLT_MAX;
+  for (int id = 0; id < sphere_count; id++) {
+    float t = intersect_sphere(r, spheres[id]);
+    if (t > 0 && t < minT) {
+      minT = t;
+      *objID = id;
+    }
+  }
+  
+  return (minT < FLT_MAX) ? minT : -1.0f;
+}
+
 
 //sphere is defined by it's position float3 and radius
-__kernel void render(int width, int height, __global uchar4 *pixels, __global float4 *spheres) {
+__kernel void render(int width, int height, __global uchar4 *pixels, int sphere_count, __global float4 *spheres) {
   int x = get_global_id(0);
   int y = get_global_id(1);
-  
-  ray r;
-  r.origin = (float3)(x, y, 0);
-  r.dir = (float3)(0, 0, 1);
-  
-  float4 s = (float4)(0, 0, 0, 100);
-  uchar color = (uchar)(intersect_sphere(r, s) * 2);
 
-  pixels[y * width + x] = (uchar4)(color,color,color,255);
+  float fovX = 3.14f / 3;
+  float fovY = height * fovX / width;
+
+  ray r;
+  r.origin = (float3)(0, 0, 0);
+  r.dir = normalize((float3)((2*x - width) * tan(fovX)/ width , (2*y-height)* tan(fovY) / height , 1));
+  
+  int objID = 0;
+  uchar color = (uchar)(nearest_intersection(r, sphere_count, spheres, &objID));
+//temporary invert pixels
+  pixels[(height - y - 1) * width + x] = (uchar4)(color,color,color,255);
   
 }

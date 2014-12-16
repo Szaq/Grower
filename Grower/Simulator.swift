@@ -54,7 +54,13 @@ class Simulator {
         
         if let buffer = Buffer<cl_float>(
           context: context,
-          count: 4 * 4,
+          copyFrom:
+          [
+            0, 0, 200, 100,
+            0, -1000010, 0, 1000000,
+            200, 100, 300, 200,
+            
+          ],
           readOnly: true,
           errorHandler: errorHandler("Positions buffer")) {
           positions = buffer
@@ -69,7 +75,8 @@ class Simulator {
   }
   
   func step() -> Bool {
-    if let kernel = renderKernel.setArgs(width, height, pixels, positions, errorHandler: errorHandler("Prepare kernel")) {
+    if let kernel = renderKernel.setArgs(width, height, pixels, cl_int(positions.objects.count / 4), positions,
+      errorHandler: errorHandler("Prepare kernel")) {
       let result = queue.enqueue(kernel, globalWorkSize: [UInt(width), UInt(height)])
       if result != CL_SUCCESS {
         return false
