@@ -16,17 +16,13 @@ typedef struct {
 
 
 float intersect_sphere(ray r, float4 s) {
-
   
   float3 origin_center = r.origin - s.xyz;
    
   float dirs_dot = dot(r.dir, origin_center);
   float origin_center_len = length(origin_center);
   
-  
   float delta = dirs_dot * dirs_dot + s.w * s.w - origin_center_len * origin_center_len;
-  
-
   
   if (delta < 0) {
     return -1;
@@ -59,9 +55,8 @@ __kernel void render(int width, int height, __global uchar4 *pixels, __global fl
   r.dir = (float3)(0, 0, 1);
   
   float4 s = (float4)(0, 0, 0, 100);
-  
-  uchar4 color = intersect_sphere(r, s) > 0 ? (uchar4)(255, 255, 255, 255) : (uchar4)(0,0,0,255);
-  
-  pixels[y * width + x] = color;
+  uchar color = (uchar)(intersect_sphere(r, s) * 2);
+
+  pixels[y * width + x] = (uchar4)(color,color,color,255);
   
 }
