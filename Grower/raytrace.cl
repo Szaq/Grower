@@ -80,7 +80,7 @@ __kernel void render(int width, int height, __global uchar4 *pixels,
   int objID = -1;
   float t = nearest_intersection(r, sphere_count, spheres, &objID);
   
-  uchar4 color = (uchar4)(0,0,0, 255);
+  uchar4 color;
   if (t >= 0) {
     
     //Generate shadow-ray
@@ -115,6 +115,9 @@ __kernel void render(int width, int height, __global uchar4 *pixels,
     }
     
     color = (uchar4)(mul * color.x, mul * color.y, mul * color.z, 255);
+  }
+  else {
+    mul = (uchar4)(0, 0,0, 255);
   }
   
   pixels[(height - y - 1) * width + x] = color;

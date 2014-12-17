@@ -17,7 +17,13 @@
 		20A79C451A387F5C008C0197 /* GrowerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20A79C441A387F5C008C0197 /* GrowerTests.swift */; };
 		20A79C611A38806F008C0197 /* Simulator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20A79C601A38806F008C0197 /* Simulator.swift */; };
 		20A79C641A388490008C0197 /* raytrace.cl in Resources */ = {isa = PBXBuildFile; fileRef = 20A79C621A388480008C0197 /* raytrace.cl */; };
+		20C1948B1A41C741000DFD98 /* mwc64x_rng.cl in Resources */ = {isa = PBXBuildFile; fileRef = 20C194811A41C720000DFD98 /* mwc64x_rng.cl */; };
+		20C1948C1A41C741000DFD98 /* mwc64xvec2_rng.cl in Resources */ = {isa = PBXBuildFile; fileRef = 20C194821A41C720000DFD98 /* mwc64xvec2_rng.cl */; };
+		20C1948D1A41C741000DFD98 /* mwc64xvec4_rng.cl in Resources */ = {isa = PBXBuildFile; fileRef = 20C194831A41C720000DFD98 /* mwc64xvec4_rng.cl */; };
+		20C1948E1A41C741000DFD98 /* mwc64xvec8_rng.cl in Resources */ = {isa = PBXBuildFile; fileRef = 20C194841A41C720000DFD98 /* mwc64xvec8_rng.cl */; };
+		20C1948F1A41C7A1000DFD98 /* skip_mwc.cl in Resources */ = {isa = PBXBuildFile; fileRef = 20C194851A41C720000DFD98 /* skip_mwc.cl */; };
 		20E00B311A40184700F20C19 /* SwiftCL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 20E00B281A40183C00F20C19 /* SwiftCL.framework */; };
+		20E00B3D1A407CE300F20C19 /* pathtrace.cl in Resources */ = {isa = PBXBuildFile; fileRef = 20E00B3B1A40782500F20C19 /* pathtrace.cl */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -80,7 +86,13 @@
 		20A79C441A387F5C008C0197 /* GrowerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GrowerTests.swift; sourceTree = "<group>"; };
 		20A79C601A38806F008C0197 /* Simulator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Simulator.swift; sourceTree = "<group>"; };
 		20A79C621A388480008C0197 /* raytrace.cl */ = {isa = PBXFileReference; explicitFileType = sourcecode.c; fileEncoding = 4; path = raytrace.cl; sourceTree = "<group>"; };
+		20C194811A41C720000DFD98 /* mwc64x_rng.cl */ = {isa = PBXFileReference; explicitFileType = sourcecode.c; fileEncoding = 4; path = mwc64x_rng.cl; sourceTree = "<group>"; };
+		20C194821A41C720000DFD98 /* mwc64xvec2_rng.cl */ = {isa = PBXFileReference; explicitFileType = sourcecode.c; fileEncoding = 4; path = mwc64xvec2_rng.cl; sourceTree = "<group>"; };
+		20C194831A41C720000DFD98 /* mwc64xvec4_rng.cl */ = {isa = PBXFileReference; explicitFileType = sourcecode.c; fileEncoding = 4; path = mwc64xvec4_rng.cl; sourceTree = "<group>"; };
+		20C194841A41C720000DFD98 /* mwc64xvec8_rng.cl */ = {isa = PBXFileReference; explicitFileType = sourcecode.c; fileEncoding = 4; path = mwc64xvec8_rng.cl; sourceTree = "<group>"; };
+		20C194851A41C720000DFD98 /* skip_mwc.cl */ = {isa = PBXFileReference; explicitFileType = sourcecode.c; fileEncoding = 4; path = skip_mwc.cl; sourceTree = "<group>"; };
 		20E00B201A40183C00F20C19 /* SwiftCL.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SwiftCL.xcodeproj; path = ../../SwiftCL/SwiftCL.xcodeproj; sourceTree = "<group>"; };
+		20E00B3B1A40782500F20C19 /* pathtrace.cl */ = {isa = PBXFileReference; explicitFileType = sourcecode.c; fileEncoding = 4; path = pathtrace.cl; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -123,13 +135,13 @@
 		20A79C301A387F5B008C0197 /* Grower */ = {
 			isa = PBXGroup;
 			children = (
+				20C1947C1A41C710000DFD98 /* cl */,
 				20E00B201A40183C00F20C19 /* SwiftCL.xcodeproj */,
 				20A79C331A387F5B008C0197 /* AppDelegate.swift */,
 				20A79C351A387F5B008C0197 /* Images.xcassets */,
 				20A79C371A387F5C008C0197 /* MainMenu.xib */,
 				20A79C311A387F5B008C0197 /* Supporting Files */,
 				20A79C601A38806F008C0197 /* Simulator.swift */,
-				20A79C621A388480008C0197 /* raytrace.cl */,
 				204276411A3B105700DAC51C /* PackedStruct.swift */,
 				204276461A3B2B3A00DAC51C /* Float3.swift */,
 				204276481A3B3DEA00DAC51C /* PackedStructMemory.swift */,
@@ -161,6 +173,28 @@
 				20A79C431A387F5C008C0197 /* Info.plist */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		20C1947C1A41C710000DFD98 /* cl */ = {
+			isa = PBXGroup;
+			children = (
+				20A79C621A388480008C0197 /* raytrace.cl */,
+				20E00B3B1A40782500F20C19 /* pathtrace.cl */,
+				20C194801A41C720000DFD98 /* mwc64x */,
+			);
+			name = cl;
+			sourceTree = "<group>";
+		};
+		20C194801A41C720000DFD98 /* mwc64x */ = {
+			isa = PBXGroup;
+			children = (
+				20C194811A41C720000DFD98 /* mwc64x_rng.cl */,
+				20C194821A41C720000DFD98 /* mwc64xvec2_rng.cl */,
+				20C194831A41C720000DFD98 /* mwc64xvec4_rng.cl */,
+				20C194841A41C720000DFD98 /* mwc64xvec8_rng.cl */,
+				20C194851A41C720000DFD98 /* skip_mwc.cl */,
+			);
+			path = mwc64x;
 			sourceTree = "<group>";
 		};
 		20E00B211A40183C00F20C19 /* Products */ = {
@@ -292,6 +326,12 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				20C1948F1A41C7A1000DFD98 /* skip_mwc.cl in Resources */,
+				20C1948B1A41C741000DFD98 /* mwc64x_rng.cl in Resources */,
+				20C1948C1A41C741000DFD98 /* mwc64xvec2_rng.cl in Resources */,
+				20C1948D1A41C741000DFD98 /* mwc64xvec4_rng.cl in Resources */,
+				20C1948E1A41C741000DFD98 /* mwc64xvec8_rng.cl in Resources */,
+				20E00B3D1A407CE300F20C19 /* pathtrace.cl in Resources */,
 				20A79C641A388490008C0197 /* raytrace.cl in Resources */,
 				20A79C361A387F5C008C0197 /* Images.xcassets in Resources */,
 				20A79C391A387F5C008C0197 /* MainMenu.xib in Resources */,
