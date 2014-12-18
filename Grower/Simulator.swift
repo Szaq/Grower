@@ -20,6 +20,7 @@ class Simulator {
   let pixels: Buffer<UInt8>!
   let width: cl_int
   let height: cl_int
+  var samples: cl_int = 0
   
   init?(width:Int, height:Int) {
     self.width = cl_int(width)
@@ -36,7 +37,8 @@ class Simulator {
           errorHandler: errorHandler("CommandQueue")) {
             self.queue = queue
             
-            let headers = ["mwc64x_rng.cl", "mwc64xvec2_rng.cl", "mwc64xvec4_rng.cl", "mwc64xvec8_rng.cl", "skip_mwc.cl"]
+            //let headers = ["mwc64x_rng.cl", "mwc64xvec2_rng.cl", "mwc64xvec4_rng.cl", "mwc64xvec8_rng.cl", "skip_mwc.cl"]
+            let headers = ["prng.cl"];
             let headerPrograms = toDictionary(headers) { name -> (String, Program)? in
                 if let program = Program(
                 context: context,
@@ -57,9 +59,10 @@ class Simulator {
               errorHandler: errorHandler("Program")) {
                 if program.compile(
                   devices: nil,
-                  options: "-cl-opt-disable",
+                  options: nil,
                   headers: headerPrograms,
                   errorHandler: errorHandler("Compile")) {
+                    let buildInfo = program.getBuildInfo(context.getInfo().deviceIDs[0])
                     if let program = linkPrograms(context, [program],
                       options: nil,
                       devices: nil,
@@ -98,7 +101,7 @@ class Simulator {
                 -50, 10, 200, 20,
                 0, -1000010, 0, 1000000,
                 100, 40, 300, 50,
-                50, 200, 20, 50,
+                0, 0, 50, 10,
               ],
               readOnly: true,
               errorHandler: errorHandler("Positions buffer")) {
@@ -114,20 +117,23 @@ class Simulator {
   }
   
   func step() -> Bool {
-    if let kernel = renderKernel.setArgs(width, height, outputBuffer, cl_int(positions.objects.count / 4), positions,
+    let randSeed = cl_int(time(nil))
+    if let kernel = renderKernel.setArgs(width, height, randSeed, outputBuffer, cl_int(positions.objects.count / 4), positions,
       errorHandler: errorHandler("Prepare kernel")) {
-        for i in 0..<100 {
+        for i in 0..<10 {
           let result = queue.enqueue(kernel, globalWorkSize: [UInt(width), UInt(height)])
           if result != CL_SUCCESS {
             return false
           }
         }
+        samples += 10
     }
     return queue.enqueueRead(pixels) == CL_SUCCESS
   }
   
   func currentImage() -> NSImage? {
-    if let kernel = tonemapKernel.setArgs(width, height, 100, pixels, outputBuffer,
+    let samplesCount = max(samples, 1)
+    if let kernel = tonemapKernel.setArgs(width, height, samplesCount, pixels, outputBuffer,
       errorHandler: errorHandler("Tonemap")) {
       if queue.enqueue(kernel, globalWorkSize: [UInt(width), UInt(height)]) != CL_SUCCESS {
         return nil

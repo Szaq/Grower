@@ -6,13 +6,20 @@ See http://www.doc.ic.ac.uk/~dt10/research
 #ifndef dt10_mwc64x_skip_cl
 #define dt10_mwc64x_skip_cl
 
+ulong MWC_AddMod64(ulong a, ulong b, ulong M);
+ulong MWC_MulMod64(ulong a, ulong b, ulong M);
+ulong MWC_PowMod64(ulong a, ulong e, ulong M);
+uint2 MWC_SkipImpl_Mod64(uint2 curr, ulong A, ulong M, ulong distance);
+uint2 MWC_SeedImpl_Mod64(ulong A, ulong M, uint vecSize, uint vecOffset, ulong streamBase, ulong streamGap);
+
+
 // Pre: a<M, b<M
 // Post: r=(a+b) mod M
 ulong MWC_AddMod64(ulong a, ulong b, ulong M)
 {
 	ulong v=a+b;
-	if( (v>=M) || (v<a) )
-		v=v-M;
+//	if( (v>=M) || (v<a) )
+//		v=v-M;
 	return v;
 }
 

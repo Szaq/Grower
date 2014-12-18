@@ -5,7 +5,8 @@
 //  Created by Lukasz Kwoska on 10/12/14.
 //  Copyright (c) 2014 Spinal Development. All rights reserved.
 //
-#include "mwc64xvec4_rng.cl"
+
+#include "prng.cl"
 
 typedef struct {
   float3 origin;
@@ -15,6 +16,9 @@ typedef struct {
   float padding2;
 } ray;
 
+float intersectSphere(ray r, float4 s);
+float nearestIntersection(ray r, int sphere_count, __global float4 *spheres, int *objID);
+ray reflectRay(ray r, float3 point, float3 normal);
 
 float intersectSphere(ray r, float4 s) {
   
@@ -66,15 +70,15 @@ ray reflectRay(ray r, float3 point, float3 normal) {
 
 
 //sphere is defined by it's position float3 and radius
-__kernel void render(int width, int height, __global float4 *outputBuffer,
+__kernel void render(int width, int height, int seed, __global float4 *outputBuffer,
                      int sphere_count, __global float4 *spheres) {
   
   int x = get_global_id(0);
   int y = get_global_id(1);
   
   //Initialize PRG
-  mwc64xvec4_state_t rand;
-  MWC64XVEC4_SeedStreams(&rand, y * width + height, 1);
+  PRNG randomState = init(y * width + x, seed);
+//  MWC64XVEC4_SeedStreams(&rand, y * width + height, 1);
   
   //Generate eye ray
   float fovX = 3.14f / 6;
@@ -100,14 +104,13 @@ __kernel void render(int width, int height, __global float4 *outputBuffer,
     ray reflectedRay = r;
     int dummyID = objID;
     
-    for (int i = 0; i < 6; i++) {
+    for (int i = 0; i < 16; i++) {
       float3 sphereCenter = spheres[dummyID].xyz;
       float3 hitPoint = reflectedRay.origin + reflectedRay.dir * t;
       float3 sphereNormal = normalize(hitPoint - sphereCenter);
       
       reflectedRay.origin = hitPoint;
-      uint4 sample =  MWC64XVEC4_NextUint4(&rand);
-      reflectedRay.dir = normalize((float3)(sample.x, sample.y, sample.z));
+      reflectedRay.dir = normalize((float3)(rand(&randomState), rand(&randomState), rand(&randomState)));
       if (dot(reflectedRay.dir, sphereNormal) < 0) {
         reflectedRay.dir = - reflectedRay.dir;
       }
@@ -115,19 +118,19 @@ __kernel void render(int width, int height, __global float4 *outputBuffer,
 
       
       t = nearestIntersection(reflectedRay, sphere_count, spheres, &dummyID);
-      if (t > 0) {
-        if (dummyID == (sphere_count - 1)) {
-          break;
-        }
-        mul *= dot(reflectedRay.dir, sphereNormal);
+      if (t > 0 && i < 15) {
+        mul *= dot(reflectedRay.dir, sphereNormal) * 0.4f;
         //compute color (assume white light)
+
       }
       else {
-        mul = 0;
         break;
       }
     }
-    color *= mul * 0.9f + 0.1f;
+    color *= mul;
+  }
+  else {
+    color = (float3)(0);
   }
   
   outputBuffer[(height - y - 1) * width + x] += (float4)(color, 1);
@@ -139,6 +142,6 @@ __kernel void tonemap(int width, int height, int samplesCount, __global uchar4 *
   
   int offset = y * width + x;
   //Linear tonemapping
-  float4 color = buffer[offset] * 255 / samplesCount;
+  float4 color = min(buffer[offset] * 255 / samplesCount, (float4)(255));
   pixels[offset] = (uchar4)(color.x, color.y, color.z, 255);
 }

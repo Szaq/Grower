@@ -11,6 +11,12 @@ See http://www.doc.ic.ac.uk/~dt10/research
 //! Represents the state of a particular generator
 typedef struct{ uint4 x; uint4 c; } mwc64xvec4_state_t;
 
+void MWC64XVEC4_Step(mwc64xvec4_state_t *s);
+void MWC64XVEC4_Skip(mwc64xvec4_state_t *s, ulong distance);
+void MWC64XVEC4_SeedStreams(mwc64xvec4_state_t *s, ulong baseOffset, ulong perStreamOffset);
+uint4 MWC64XVEC4_NextUint4(mwc64xvec4_state_t *s);
+
+
 enum{ MWC64XVEC4_A = 4294883355U };
 enum{ MWC64XVEC4_M = 18446383549859758079UL };
 
