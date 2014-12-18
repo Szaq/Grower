@@ -98,10 +98,16 @@ class Simulator {
               context: context,
               copyFrom:
               [
-                -50, 10, 200, 20,
+                -1000020, 0, 0, 1000000,
                 0, -1000010, 0, 1000000,
-                100, 40, 300, 50,
-                0, 0, 50, 10,
+               // 0, 0, -1001000, 1000000,
+                1000020, 0, 0, 1000000,
+                0, 0, 1000060, 1000000,
+                0,10,40,5,
+                10,0,40,5,
+                -10,0,40,5,
+                0, 1000150, 0, 1000000,
+                0,100,20,50,
               ],
               readOnly: true,
               errorHandler: errorHandler("Positions buffer")) {
@@ -117,17 +123,17 @@ class Simulator {
   }
   
   func step() -> Bool {
-    let randSeed = cl_int(time(nil))
-    if let kernel = renderKernel.setArgs(width, height, randSeed, outputBuffer, cl_int(positions.objects.count / 4), positions,
-      errorHandler: errorHandler("Prepare kernel")) {
-        for i in 0..<10 {
-          let result = queue.enqueue(kernel, globalWorkSize: [UInt(width), UInt(height)])
-          if result != CL_SUCCESS {
-            return false
-          }
-        }
-        samples += 10
+            for i in 0..<10 {
+              let randSeed = samples + i
+              if let kernel = renderKernel.setArgs(width, height, randSeed, outputBuffer, cl_int(positions.objects.count / 4), positions,
+                errorHandler: errorHandler("Prepare kernel")) {
+                  let result = queue.enqueue(kernel, globalWorkSize: [UInt(width), UInt(height)])
+                  if result != CL_SUCCESS {
+                    return false
+                  }
+              }
     }
+    samples += 10
     return queue.enqueueRead(pixels) == CL_SUCCESS
   }
   

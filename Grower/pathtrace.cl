@@ -96,6 +96,7 @@ __kernel void render(int width, int height, int seed, __global float4 *outputBuf
   float t = nearestIntersection(r, sphere_count, spheres, &objID);
   
   float3 color = (float3)(1);
+  
   if (t >= 0) {
     
     //Check if anything is blocking the light
@@ -104,7 +105,7 @@ __kernel void render(int width, int height, int seed, __global float4 *outputBuf
     ray reflectedRay = r;
     int dummyID = objID;
     
-    for (int i = 0; i < 16; i++) {
+    for (int i = 0; i < 6; i++) {
       float3 sphereCenter = spheres[dummyID].xyz;
       float3 hitPoint = reflectedRay.origin + reflectedRay.dir * t;
       float3 sphereNormal = normalize(hitPoint - sphereCenter);
@@ -118,15 +119,20 @@ __kernel void render(int width, int height, int seed, __global float4 *outputBuf
 
       
       t = nearestIntersection(reflectedRay, sphere_count, spheres, &dummyID);
-      if (t > 0 && i < 15) {
-        mul *= dot(reflectedRay.dir, sphereNormal) * 0.4f;
+      if (t > 0) {
+        if (dummyID == (sphere_count - 1)) {
+          break;
+        }
+        mul *= dot(reflectedRay.dir, sphereNormal) * 0.7f;
         //compute color (assume white light)
 
       }
       else {
+        mul = 0;
         break;
       }
     }
+    
     color *= mul;
   }
   else {
@@ -134,6 +140,7 @@ __kernel void render(int width, int height, int seed, __global float4 *outputBuf
   }
   
   outputBuffer[(height - y - 1) * width + x] += (float4)(color, 1);
+   
 }
 
 __kernel void tonemap(int width, int height, int samplesCount, __global uchar4 *pixels, __global float4 *buffer) {
@@ -142,6 +149,6 @@ __kernel void tonemap(int width, int height, int samplesCount, __global uchar4 *
   
   int offset = y * width + x;
   //Linear tonemapping
-  float4 color = min(buffer[offset] * 255 / samplesCount, (float4)(255));
+  float4 color = min(buffer[offset] * 255 * 6 / samplesCount, (float4)(255));
   pixels[offset] = (uchar4)(color.x, color.y, color.z, 255);
 }
