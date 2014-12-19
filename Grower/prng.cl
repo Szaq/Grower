@@ -13,6 +13,9 @@
  **/
 #define ROUNDS 4
 
+void renew(ulong4 *state, ulong4 seed);
+
+
 /* This is a 512-bit > 256-bit one-way function. */
 /** One-way pseudorandom function, from 512 bits to 256 bits.
  * @param state The internal state.
@@ -73,6 +76,9 @@ typedef struct PRNG
     /** @brief A pointer to the PRNG's seed, common to all instances. **/
     ulong4 seed;
   } PRNG;
+
+PRNG init(ulong ID, ulong seed);
+float rand(PRNG *prng);
 
 /** This function creates a new PRNG instance, and initializes it to zero.
  * @param ID The ID to create the PRNG instance with, must be unique.

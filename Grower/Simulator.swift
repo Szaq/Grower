@@ -38,8 +38,7 @@ class Simulator {
           errorHandler: errorHandler("CommandQueue")) {
             self.queue = queue
             
-            //let headers = ["mwc64x_rng.cl", "mwc64xvec2_rng.cl", "mwc64xvec4_rng.cl", "mwc64xvec8_rng.cl", "skip_mwc.cl"]
-            let headers = ["prng.cl"];
+            let headers = ["prng.cl", "intersections.h", "shading.h", "common.h", "ray.h"];
             let headerPrograms = toDictionary(headers) { name -> (String, Program)? in
                 if let program = Program(
                 context: context,

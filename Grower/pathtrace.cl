@@ -8,86 +8,15 @@
 
 #include "prng.cl"
 
-typedef struct {
-  float3 origin;
-  float padding1;
-  //Normalized direction vector
-  float3 dir;
-  float padding2;
-} ray;
-
-float intersectSphere(ray r, float4 s);
-float nearestIntersection(ray r, int sphere_count, __global float4 *spheres, int *objID);
-ray reflectRay(ray r, float3 point, float3 normal);
-
-
-float intersectSphere(ray r, float4 s) {
-  
-  float3 centerToOriginVec = r.origin - s.xyz;
-  
-  float dottedDirs = dot(r.dir, centerToOriginVec);
-  
-  float delta = dottedDirs * dottedDirs + s.w * s.w - dot(centerToOriginVec, centerToOriginVec);
-  
-  if (delta < 0) {
-    return -1;
-  }
-  
-  if (delta == 0) {
-    return -dottedDirs;
-  }
-  
-  delta = sqrt(delta);
-  
-  float d1 = -dottedDirs - delta;
-  float d2 = -dottedDirs + delta;
-  
-  //Warning - Case when we're inside sphere is not correctly  handled
-  if (d2 < d1) {
-    d1 = d2;
-  }
-  
-  return d1;
-}
-
-float nearestIntersection(ray r, int sphere_count, __global float4 *spheres, int *objID) {
-  float minT = FLT_MAX;
-  for (int id = 0; id < sphere_count; id++) {
-    float t = intersectSphere(r, spheres[id]);
-    if (t > 0.0f && t < minT && id != *objID) {
-      minT = t;
-      *objID = id;
-    }
-  }
-  
-  return (minT < FLT_MAX) ? minT : -1.0f;
-}
-
-ray reflectRay(ray r, float3 point, float3 normal) {
-  ray reflectedRay;
-  reflectedRay.origin = point;
-  reflectedRay.dir = normalize(r.dir - 2 * normal * dot(r.dir, normal));
-  return reflectedRay;
-}
-
-
-ray eyeRay(int x, int y, int width, int height, PRNG *randomState) {
-  float fovX = 3.14f / 6;
-  float fovY = height * fovX / width;
-  
-  ray r;
-  r.origin = (float3)(0, 0, 0);
-  r.dir = normalize((float3)((2 * (x + rand(randomState) - 0.5f) - width)  * tan(fovX) / width ,
-                             (2 * (y + rand(randomState) - 0.5f) - height) * tan(fovY) / height ,
-                             1));
-  return r;
-}
-
+#include "common.h"
+#include "ray.h"
+#include "intersections.h"
+#include "shading.h"
 
 
 //sphere is defined by it's position float3 and radius
 __kernel void render(int width, int height, int seed, __global float4 *outputBuffer,
-                     int sphere_count, __global float4 *spheres) {
+                     int objectCount, OBJECT_GEOMETRIES objects) {
   
   int x = get_global_id(0);
   int y = get_global_id(1);
@@ -101,7 +30,7 @@ __kernel void render(int width, int height, int seed, __global float4 *outputBuf
   
   //Find nearest eye-ray intersection
   int objID = -1;
-  float t = nearestIntersection(r, sphere_count, spheres, &objID);
+  float t = nearestIntersection(r, objectCount, objects, &objID);
   
   float3 color = (float3)(1);
   
@@ -116,23 +45,19 @@ __kernel void render(int width, int height, int seed, __global float4 *outputBuf
         mul = 0;
         break;
       }
-      float3 sphereCenter = spheres[objID].xyz;
+      float3 sphereCenter = objects[objID].xyz;
       float3 hitPoint = r.origin + r.dir * t;
       float3 sphereNormal = normalize(hitPoint - sphereCenter);
       
       
       //Generate randomly reflected ray
-      r.origin = hitPoint;
-      r.dir = normalize((float3)(rand(&randomState) - 0.5f, rand(&randomState) - 0.5f, rand(&randomState) - 0.5f));
-      
-      if (dot(r.dir, sphereNormal) < 0) {
-        r.dir = - r.dir;
-      }
+      r = randomRayInHemisphere(hitPoint, sphereNormal, &randomState);
       
       //Find reflected ray's nearest intersection
-      t = nearestIntersection(r, sphere_count, spheres, &objID);
+      t = nearestIntersection(r, objectCount, objects, &objID);
       if (t > 0) {
-        if (objID == (sphere_count - 1)) {
+        
+        if (objID == (objectCount - 1)) {
           //Reflected ray hit light
           break;
         }
