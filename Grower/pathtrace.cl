@@ -37,7 +37,9 @@ __kernel void render(int width, int height, int seed, __global float4 *outputBuf
   
   if (t >= 0) {
     
-    for (int i = 0; i < 3; i++) {
+    color = surfaceColor(materials[objID], (float3)(0), (float3)(0));
+    
+    for (int i = 0; i < 0; i++) {
       //End criteria
       if (i == 2) {
         color = (float4)(0, 0, 0, 1);
