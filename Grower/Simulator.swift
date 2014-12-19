@@ -125,7 +125,7 @@ class Simulator {
   }
   
   func step() -> Bool {
-            for i in 0..<10 {
+            for i in 0..<100 {
               let randSeed = samples + i
               if let kernel = renderKernel.setArgs(width, height, randSeed, outputBuffer, cl_int(positions.objects.count / 4), positions,
                 errorHandler: errorHandler("Prepare kernel")) {
@@ -135,7 +135,7 @@ class Simulator {
                   }
               }
     }
-    samples += 10
+    samples += 100
     return queue.enqueueRead(pixels) == CL_SUCCESS
   }
   
