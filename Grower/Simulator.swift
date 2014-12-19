@@ -16,6 +16,7 @@ class Simulator {
   let renderKernel: Kernel!
   let tonemapKernel: Kernel!
   let positions: Buffer<Float>!
+  let materials: Memory!
   let outputBuffer: Buffer<Float>!
   let pixels: Buffer<UInt8>!
   let width: cl_int
@@ -114,8 +115,24 @@ class Simulator {
               errorHandler: errorHandler("Positions buffer")) {
                 positions = buffer
             }
+
+            if let materials = serializeToMemory([
+              Material(color: (1, 0, 0, 1), type: .Diffuse, IOR: 1.2, dummy: (0,0)),
+              Material(color: (1, 0, 1, 1), type: .Diffuse, IOR: 1.2, dummy: (0,0)),
+              Material(color: (0, 1, 0, 1), type: .Diffuse, IOR: 1.2, dummy: (0,0)),
+              Material(color: (0, 0, 1, 1), type: .Diffuse, IOR: 1.2, dummy: (0,0)),
+              Material(color: (0, 1, 1, 1), type: .Diffuse, IOR: 1.2, dummy: (0,0)),
+              Material(color: (1, 1, 1, 1), type: .Diffuse, IOR: 1.2, dummy: (0,0)),
+              Material(color: (0, 0.5, 1, 1), type: .Diffuse, IOR: 1.2, dummy: (0,0)),
+              Material(color: (1, 0.5, 0, 1), type: .Diffuse, IOR: 1.2, dummy: (0,0)),
+              Material(color: (0.5, 0, 1, 1), type: .Diffuse, IOR: 1.2, dummy: (0,0)),
+              Material(color: (1, 1, 1, 1), type: .Emitter, IOR: 0.0, dummy: (0,0))
+              ],
+              context, CL_MEM_READ_ONLY | CL_MEM_USE_HOST_PTR, errorHandler: errorHandler("Materials buffer")) {
+              self.materials = materials
+            }
             
-            if (renderKernel != nil && positions != nil && pixels != nil && outputBuffer != nil) {
+            if (renderKernel != nil && positions != nil && pixels != nil && outputBuffer != nil && materials != nil) {
               return
             }
         }
@@ -126,16 +143,17 @@ class Simulator {
   func step() -> Bool {
             for i in 0..<100 {
               let randSeed = samples + i
-              if let kernel = renderKernel.setArgs(width, height, randSeed, outputBuffer, cl_int(positions.objects.count / 4), positions,
+              if let kernel = renderKernel.setArgs(width, height, randSeed, outputBuffer, cl_int(positions.objects.count / 4), positions, materials,
                 errorHandler: errorHandler("Prepare kernel")) {
                   let result = queue.enqueue(kernel, globalWorkSize: [UInt(width), UInt(height)])
                   if result != CL_SUCCESS {
+                    errorHandler("Kernel enqueue")(result: result)
                     return false
                   }
               }
     }
     samples += 100
-    return queue.enqueueRead(pixels) == CL_SUCCESS
+    return true
   }
   
   func currentImage() -> NSImage? {

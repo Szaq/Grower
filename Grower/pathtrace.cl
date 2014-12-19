@@ -16,7 +16,8 @@
 
 //sphere is defined by it's position float3 and radius
 __kernel void render(int width, int height, int seed, __global float4 *outputBuffer,
-                     int objectCount, OBJECT_GEOMETRIES objects) {
+                     int objectCount, OBJECT_GEOMETRIES objects,
+                     OBJECT_MATERIALS materials) {
   
   int x = get_global_id(0);
   int y = get_global_id(1);
@@ -32,23 +33,24 @@ __kernel void render(int width, int height, int seed, __global float4 *outputBuf
   int objID = -1;
   float t = nearestIntersection(r, objectCount, objects, &objID);
   
-  float3 color = (float3)(1);
+  float4 color = (float4)(1);
   
   if (t >= 0) {
-    
-    //Check if anything is blocking the light
-    float mul = 1.0f;
     
     for (int i = 0; i < 3; i++) {
       //End criteria
       if (i == 2) {
-        mul = 0;
+        color = (float4)(0, 0, 0, 1);
         break;
       }
+      
+      
       float3 sphereCenter = objects[objID].xyz;
       float3 hitPoint = r.origin + r.dir * t;
-      float3 sphereNormal = normalize(hitPoint - sphereCenter);
+      float3 localPoint = hitPoint - sphereCenter;
+      float3 sphereNormal = normalize(localPoint);
       
+      color *= surfaceColor(materials[objID], localPoint, r.dir);
       
       //Generate randomly reflected ray
       r = randomRayInHemisphere(hitPoint, sphereNormal, &randomState);
@@ -57,30 +59,26 @@ __kernel void render(int width, int height, int seed, __global float4 *outputBuf
       t = nearestIntersection(r, objectCount, objects, &objID);
       if (t > 0) {
         
-        if (objID == (objectCount - 1)) {
+        if (surfaceIsEmitter(materials[objID])) {
           //Reflected ray hit light
           break;
         }
         
         //Indirect lighting
-        mul *= dot(r.dir, sphereNormal) * 0.4f;
-        //compute color (assume white light)
-
+        color.xyz *= (float3)dot(r.dir, sphereNormal);
       }
       else {
         //Reflected ray hit nothing
-        mul = 0;
+        color = (float4)(0, 0, 0, 1);
         break;
       }
     }
-    
-    color *= mul;
   }
   else {
-    color = (float3)(0);
+    color = (float4)(0, 0, 0, 1);
   }
   
-  outputBuffer[(height - y - 1) * width + x] += (float4)(color, 1);
+  outputBuffer[(height - y - 1) * width + x] += (float4)(color.xyz, 1);
    
 }
 
