@@ -86,8 +86,8 @@ __kernel void render(int width, int height, int seed, __global float4 *outputBuf
   
   ray r;
   r.origin = (float3)(0, 0, 0);
-  r.dir = normalize((float3)((2 * x - width)  * tan(fovX) / width ,
-                             (2 * y - height) * tan(fovY) / height ,
+  r.dir = normalize((float3)((2 * (x + rand(&randomState) - 0.5f) - width)  * tan(fovX) / width ,
+                             (2 * (y + rand(&randomState) - 0.5f) - height) * tan(fovY) / height ,
                              1));
   
   
@@ -111,7 +111,7 @@ __kernel void render(int width, int height, int seed, __global float4 *outputBuf
       float3 sphereNormal = normalize(hitPoint - sphereCenter);
       
       reflectedRay.origin = hitPoint;
-      reflectedRay.dir = normalize((float3)(rand(&randomState), rand(&randomState), rand(&randomState)));
+      reflectedRay.dir = normalize((float3)(rand(&randomState) - 0.5f, rand(&randomState) - 0.5f, rand(&randomState) - 0.5f));
       if (dot(reflectedRay.dir, sphereNormal) < 0) {
         reflectedRay.dir = - reflectedRay.dir;
       }
@@ -123,7 +123,7 @@ __kernel void render(int width, int height, int seed, __global float4 *outputBuf
         if (dummyID == (sphere_count - 1)) {
           break;
         }
-        mul *= dot(reflectedRay.dir, sphereNormal) * 0.7f;
+        mul *= dot(reflectedRay.dir, sphereNormal) * 0.4f;
         //compute color (assume white light)
 
       }
@@ -149,6 +149,6 @@ __kernel void tonemap(int width, int height, int samplesCount, __global uchar4 *
   
   int offset = y * width + x;
   //Linear tonemapping
-  float4 color = min(buffer[offset] * 255 * 6 / samplesCount, (float4)(255));
+  float4 color = min(buffer[offset] * 255 * 10 / samplesCount, (float4)(255));
   pixels[offset] = (uchar4)(color.x, color.y, color.z, 255);
 }

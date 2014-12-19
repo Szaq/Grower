@@ -21,6 +21,7 @@ class Simulator {
   let width: cl_int
   let height: cl_int
   var samples: cl_int = 0
+  var samplesInLastReport: cl_int = 0
   
   init?(width:Int, height:Int) {
     self.width = cl_int(width)
@@ -104,6 +105,7 @@ class Simulator {
                 1000020, 0, 0, 1000000,
                 0, 0, 1000060, 1000000,
                 0,10,40,5,
+                0,-5,40,5,
                 10,0,40,5,
                 -10,0,40,5,
                 0, 1000150, 0, 1000000,
@@ -170,6 +172,20 @@ class Simulator {
     }
     
     return nil
+  }
+  
+  func reportStats() {
+    let timeStart = CACurrentMediaTime()
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 1000000000), dispatch_get_main_queue()) {
+      let timePassed = CACurrentMediaTime() - timeStart;
+      let samplesSinceLastReport = self.samples - self.samplesInLastReport
+      self.samplesInLastReport = self.samples
+      let msamplesPerSec = Float(samplesSinceLastReport * self.width * self.height) / Float(timePassed * 1000000)
+      let samplesPerPixel = Float(self.samples)
+      println("\(msamplesPerSec) MS/sec\t\(samplesPerPixel) S/px")
+      
+      self.reportStats();
+    }
   }
   
   func errorHandler(label:String)(param:Int32, result:cl_int) {

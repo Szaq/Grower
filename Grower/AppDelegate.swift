@@ -20,6 +20,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
     // Insert code here to initialize your application
     step();
+    sim?.reportStats()
      }
 
   func applicationWillTerminate(aNotification: NSNotification) {
