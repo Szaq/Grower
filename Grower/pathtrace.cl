@@ -33,15 +33,15 @@ __kernel void render(int width, int height, int seed, __global float4 *outputBuf
   int objID = -1;
   float t = nearestIntersection(r, objectCount, objects, &objID);
   
-  float4 color = (float4)(1);
+  float4 color = (float4)(5000);
   
   if (t >= 0) {
     
-    color = surfaceColor(materials[objID], (float3)(0), (float3)(0));
+  //  color *= surfaceColor(materials[objID], (float3)(0), (float3)(0));
     
-    for (int i = 0; i < 0; i++) {
+    for (int i = 0; i < 2; i++) {
       //End criteria
-      if (i == 2) {
+      if (i == 1) {
         color = (float4)(0, 0, 0, 1);
         break;
       }
@@ -60,6 +60,9 @@ __kernel void render(int width, int height, int seed, __global float4 *outputBuf
       //Find reflected ray's nearest intersection
       t = nearestIntersection(r, objectCount, objects, &objID);
       if (t > 0) {
+        
+        float3 vectrBetweenPoints = r.origin + t * r.dir - hitPoint;
+        color.xyz *= (float3)min((1.0f/dot(vectrBetweenPoints, vectrBetweenPoints)), 1.0f);
         
         if (surfaceIsEmitter(materials[objID])) {
           //Reflected ray hit light
@@ -90,6 +93,6 @@ __kernel void tonemap(int width, int height, int samplesCount, __global uchar4 *
   
   int offset = y * width + x;
   //Linear tonemapping
-  float4 color = min(buffer[offset] * 255 * 10 / samplesCount, (float4)(255));
+  float4 color = min(buffer[offset] * 255 * 30 / samplesCount, (float4)(255));
   pixels[offset] = (uchar4)(color.x, color.y, color.z, 255);
 }

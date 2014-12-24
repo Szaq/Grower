@@ -104,10 +104,10 @@ class Simulator {
                // 0, 0, -1001000, 1000000,
                 1000020, 0, 0, 1000000,
                 0, 0, 1000060, 1000000,
-                0,10,40,5,
+                0,5,40,5,
                 0,-5,40,5,
-                10,0,40,5,
-                -10,0,40,5,
+                10,0,30,5,
+                -10,0,30,5,
                 0, 1000150, 0, 1000000,
                 0,100,20,50,
               ],
@@ -117,15 +117,15 @@ class Simulator {
             }
 
             if let materials = serializeToMemory([
-              Material(color: (1, 0, 0, 1), type: .Diffuse, IOR: 1.2, dummy: (0,0)),
-              Material(color: (1, 0, 1, 1), type: .Diffuse, IOR: 1.2, dummy: (0,0)),
-              Material(color: (0, 1, 0, 1), type: .Diffuse, IOR: 1.2, dummy: (0,0)),
-              Material(color: (0, 0, 1, 1), type: .Diffuse, IOR: 1.2, dummy: (0,0)),
-              Material(color: (0, 1, 1, 1), type: .Diffuse, IOR: 1.2, dummy: (0,0)),
-              Material(color: (1, 1, 1, 1), type: .Diffuse, IOR: 1.2, dummy: (0,0)),
-              Material(color: (0, 0.5, 1, 1), type: .Diffuse, IOR: 1.2, dummy: (0,0)),
-              Material(color: (1, 0.5, 0, 1), type: .Diffuse, IOR: 1.2, dummy: (0,0)),
-              Material(color: (0.5, 0, 1, 1), type: .Diffuse, IOR: 1.2, dummy: (0,0)),
+              Material(color: (0.5, 0, 0, 1), type: .Diffuse, IOR: 1.2, dummy: (0,0)),
+              Material(color: (0.5, 0.5, 0.5, 1), type: .Diffuse, IOR: 1.2, dummy: (0,0)),
+              Material(color: (0, 0.5, 0, 1), type: .Diffuse, IOR: 1.2, dummy: (0,0)),
+              Material(color: (0, 0, 0.5, 1), type: .Diffuse, IOR: 1.2, dummy: (0,0)),
+              Material(color: (0, 0.5, 0.5, 1), type: .Diffuse, IOR: 1.2, dummy: (0,0)),
+              Material(color: (0.25, 0.5, 0.2, 1), type: .Diffuse, IOR: 1.2, dummy: (0,0)),
+              Material(color: (0, 0.25, 0.5, 1), type: .Diffuse, IOR: 1.2, dummy: (0,0)),
+              Material(color: (0.4, 0.25, 0.1, 1), type: .Diffuse, IOR: 1.2, dummy: (0,0)),
+              Material(color: (0.25, 0.25, 0.5, 1), type: .Diffuse, IOR: 1.2, dummy: (0,0)),
               Material(color: (1, 1, 1, 1), type: .Emitter, IOR: 0.0, dummy: (0,0))
               ],
               context, CL_MEM_READ_ONLY | CL_MEM_USE_HOST_PTR, errorHandler: errorHandler("Materials buffer")) {
@@ -141,7 +141,7 @@ class Simulator {
   }
   
   func step() -> Bool {
-            for i in 0..<100 {
+            for i in 0..<10 {
               let randSeed = samples + i
               if let kernel = renderKernel.setArgs(width, height, randSeed, outputBuffer, cl_int(positions.objects.count / 4), positions, materials,
                 errorHandler: errorHandler("Prepare kernel")) {
@@ -152,7 +152,7 @@ class Simulator {
                   }
               }
     }
-    samples += 100
+    samples += 10
     return true
   }
   
