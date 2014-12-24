@@ -101,11 +101,11 @@ class Simulator {
               [
                 -1000020, 0, 0, 1000000,
                 0, -1000010, 0, 1000000,
-               // 0, 0, -1001000, 1000000,
+                0, 0, -1001000, 1000000,
                 1000020, 0, 0, 1000000,
                 0, 0, 1000060, 1000000,
                 0,5,40,5,
-                0,-5,40,5,
+                0,-5,50,5,
                 10,0,30,5,
                 -10,0,30,5,
                 0, 1000150, 0, 1000000,
@@ -117,16 +117,17 @@ class Simulator {
             }
 
             if let materials = serializeToMemory([
-              Material(color: (0.5, 0, 0, 1), type: .Diffuse, IOR: 1.2, dummy: (0,0)),
-              Material(color: (0.5, 0.5, 0.5, 1), type: .Diffuse, IOR: 1.2, dummy: (0,0)),
-              Material(color: (0, 0.5, 0, 1), type: .Diffuse, IOR: 1.2, dummy: (0,0)),
-              Material(color: (0, 0, 0.5, 1), type: .Diffuse, IOR: 1.2, dummy: (0,0)),
-              Material(color: (0, 0.5, 0.5, 1), type: .Diffuse, IOR: 1.2, dummy: (0,0)),
-              Material(color: (0.25, 0.5, 0.2, 1), type: .Diffuse, IOR: 1.2, dummy: (0,0)),
-              Material(color: (0, 0.25, 0.5, 1), type: .Diffuse, IOR: 1.2, dummy: (0,0)),
-              Material(color: (0.4, 0.25, 0.1, 1), type: .Diffuse, IOR: 1.2, dummy: (0,0)),
-              Material(color: (0.25, 0.25, 0.5, 1), type: .Diffuse, IOR: 1.2, dummy: (0,0)),
-              Material(color: (1, 1, 1, 1), type: .Emitter, IOR: 0.0, dummy: (0,0))
+              Material(color: (0.5, 0, 0, 1), type: .Diffuse, IOR: 1.2, roughness:0, dummy: 0),
+              Material(color: (0.5, 0.5, 0.5, 1), type: .Diffuse, IOR: 1.2, roughness:0, dummy: 0),
+              Material(color: (0.4, 0.1, 0.5, 1), type: .Diffuse, IOR: 1.2, roughness:0, dummy: 0),
+              Material(color: (0, 0.5, 0, 1), type: .Diffuse, IOR: 1.2, roughness:0, dummy: 0),
+              Material(color: (0, 0, 0.5, 1), type: .Diffuse, IOR: 1.2, roughness:0, dummy: 0),
+              Material(color: (0, 0.5, 0.5, 1), type: .Diffuse, IOR: 1.2, roughness:0, dummy: 0),
+              Material(color: (1.0, 1.0, 1.0, 1), type: .Glossy, IOR: 0.0, roughness:0.3, dummy: 0),
+              Material(color: (0, 0.25, 0.5, 1), type: .Diffuse, IOR: 1.2, roughness:0, dummy: 0),
+              Material(color: (0.4, 0.25, 0.1, 1), type: .Diffuse, IOR: 1.2, roughness:0, dummy: 0),
+              Material(color: (0.25, 0.25, 0.5, 1), type: .Diffuse, IOR: 1.2, roughness:0, dummy: 0),
+              Material(color: (1, 1, 1, 1), type: .Emitter, IOR: 0.0, roughness:0, dummy: 0)
               ],
               context, CL_MEM_READ_ONLY | CL_MEM_USE_HOST_PTR, errorHandler: errorHandler("Materials buffer")) {
               self.materials = materials

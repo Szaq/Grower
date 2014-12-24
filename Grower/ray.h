@@ -37,7 +37,7 @@ ray eyeRay(int x, int y, int width, int height, PRNG *randomState) {
 ray randomRayInHemisphere(float3 position, float3 normal, PRNG *randomState) {
   ray r;
   r.origin = position;
-  r.dir = normalize((float3)(rand(randomState) - 0.5f, rand(randomState) - 0.5f, rand(randomState) - 0.5f));
+  r.dir = randomVector(randomState);
   
   if (dot(r.dir, normal) < 0) {
     r.dir = - r.dir;

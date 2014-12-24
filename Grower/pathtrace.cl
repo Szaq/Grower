@@ -51,6 +51,7 @@ __kernel void render(int width, int height, int seed, __global float4 *outputBuf
       float3 hitPoint = r.origin + r.dir * t;
       float3 localPoint = hitPoint - sphereCenter;
       float3 sphereNormal = normalize(localPoint);
+      float3 eyeDir = r.dir;
       
       Material material = materials[objID];
       
@@ -63,7 +64,7 @@ __kernel void render(int width, int height, int seed, __global float4 *outputBuf
       t = nearestIntersection(r, objectCount, objects, &objID);
       if (t > 0) {
         
-        float3 vectrBetweenPoints = r.origin + t * r.dir - hitPoint;
+        //float3 vectrBetweenPoints = r.origin + t * r.dir - hitPoint;
         //color.xyz *= (float3)min((1.0f/dot(vectrBetweenPoints, vectrBetweenPoints)), 1.0f);
         
         if (surfaceIsEmitter(material)) {
@@ -72,7 +73,7 @@ __kernel void render(int width, int height, int seed, __global float4 *outputBuf
         }
         
         //Indirect lighting
-        color.xyz *= (float3)dot(r.dir, sphereNormal);
+        color.xyz = BRDF(color.xyz, sphereNormal, randomVectorInHemisphere(sphereNormal, &randomState), r.dir, eyeDir, material);
       }
       else {
         //Reflected ray hit nothing
