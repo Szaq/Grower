@@ -15,6 +15,7 @@ enum ShaderType : Int32 {
   case Emitter
   case Glossy
   case Mirror
+  case Transparent
 }
 
 struct Material :MemorySerializable {

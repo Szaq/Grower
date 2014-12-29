@@ -3,6 +3,7 @@ typedef enum {
   ShaderTypeEmitter,
   ShaderTypeGlossy,
   ShaderTypeMirror,
+  ShaderTypeTransparent,
 } ShaderType;
 
 typedef struct {
@@ -113,6 +114,7 @@ float3 BRDF(float3 color, float3 normal, float3 microFacetNormal, float3 lightDi
     case ShaderTypeGlossy:
       return glossyBRDF(color, normal, microFacetNormal, lightDir, -eyeDir, material.roughness, material.IOR);
     case ShaderTypeMirror:
+    case ShaderTypeTransparent:
       return color;
     case ShaderTypeEmitter:
       return color;
@@ -130,6 +132,8 @@ ray surfaceRay(Material material, float3 position, float3 normal, ray incomingRa
     case ShaderTypeMirror:
     case ShaderTypeEmitter:
       return reflectRay(incomingRay, position, normal);
+    case ShaderTypeTransparent:
+      return refractRay(incomingRay, position, normal);
     default:
       break;
 

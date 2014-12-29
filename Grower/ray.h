@@ -17,7 +17,14 @@ ray randomRayInHemisphere(float3 position, float3 normal, PRNG *randomState);
 ray reflectRay(ray r, float3 point, float3 normal) {
   ray reflectedRay;
   reflectedRay.origin = point;
-  reflectedRay.dir = normalize(r.dir - 2 * normal * dot(r.dir, normal));
+  reflectedRay.dir = normalize(r.dir - 2 * dot(r.dir, normal) * normal );
+  return reflectedRay;
+}
+
+ray refractRay(ray r, float3 point, float3 normal) {
+  ray reflectedRay;
+  reflectedRay.origin = point;
+  reflectedRay.dir = normalize(-r.dir - 2 * normal * dot(r.dir, normal));
   return reflectedRay;
 }
 
