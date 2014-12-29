@@ -14,3 +14,19 @@ float3 randomVectorInHemisphere (float3 normal, PRNG *randomState) {
   }
   return v;
 }
+
+/**
+ *  Convert cartezian coordinate to spherical
+ *
+ *  @param cartezian (x, y, z)
+ *
+ *  @return (radius, inclination, azimuth)
+ */
+float3 normalizedCartezianToSpherical(float3 cartezian) {
+  return (float3)(1.0f,  acosf(cartezian.z), atan2(cartezian.y, cartezian.x));
+}
+
+float3 sphericalToNormalizedCartezian(float3 spherical) {
+  float sinIncl = sin(spherical.y);
+  return (float3)(sinIncl *  cos(spherical.z),  sinIncl * sin(spherical.z), cos(spherical.y));
+}

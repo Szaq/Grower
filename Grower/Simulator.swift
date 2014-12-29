@@ -123,7 +123,7 @@ class Simulator {
               Material(color: (0, 0.5, 0, 1), type: .Diffuse, IOR: 1.2, roughness:0, dummy: 0),
               Material(color: (0, 0, 0.5, 1), type: .Diffuse, IOR: 1.2, roughness:0, dummy: 0),
               Material(color: (0, 0.5, 0.5, 1), type: .Diffuse, IOR: 1.2, roughness:0, dummy: 0),
-              Material(color: (1.0, 1.0, 1.0, 1), type: .Glossy, IOR: 0.0, roughness:0.3, dummy: 0),
+              Material(color: (0.5, 0.5, 0.5, 1), type: .Mirror, IOR: 0.0, roughness:0.3, dummy: 0),
               Material(color: (0, 0.25, 0.5, 1), type: .Diffuse, IOR: 1.2, roughness:0, dummy: 0),
               Material(color: (0.4, 0.25, 0.1, 1), type: .Diffuse, IOR: 1.2, roughness:0, dummy: 0),
               Material(color: (0.25, 0.25, 0.5, 1), type: .Diffuse, IOR: 1.2, roughness:0, dummy: 0),

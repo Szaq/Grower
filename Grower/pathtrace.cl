@@ -58,7 +58,7 @@ __kernel void render(int width, int height, int seed, __global float4 *outputBuf
       color *= surfaceColor(material, localPoint, r.dir);
       
       //Generate randomly reflected ray
-      r = randomRayInHemisphere(hitPoint, sphereNormal, &randomState);
+      r = surfaceRay(material, hitPoint, sphereNormal, r, &randomState);
       
       //Find reflected ray's nearest intersection
       t = nearestIntersection(r, objectCount, objects, &objID);

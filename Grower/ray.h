@@ -23,7 +23,7 @@ ray reflectRay(ray r, float3 point, float3 normal) {
 
 
 ray eyeRay(int x, int y, int width, int height, PRNG *randomState) {
-  float fovX = 3.14f / 6;
+  float fovX = M_PI / 6;
   float fovY = height * fovX / width;
   
   ray r;
@@ -37,10 +37,18 @@ ray eyeRay(int x, int y, int width, int height, PRNG *randomState) {
 ray randomRayInHemisphere(float3 position, float3 normal, PRNG *randomState) {
   ray r;
   r.origin = position;
-  r.dir = randomVector(randomState);
+#ifdef newBRDF
+  float cosAlpha = asinf(rand(randomState)) * 2.0f / M_PI;
+  float radius = sqrtf( 1.0f / (cosAlpha * cosAlpha) - 1.0f);
+  float theta = rand(randomState) * 2.0f * M_PI;
   
-  if (dot(r.dir, normal) < 0) {
-    r.dir = - r.dir;
-  }
+  float3 perp = normalize(cross(normal, (float3)(1,.5,0.001f)));
+  float3 perp2 = normalize(cross(normal, perp2));
+  
+  r.dir = normalize(normal + radius * (cos(theta) * perp + sin(theta) * perp2));
+#else
+  r.dir = randomVectorInHemisphere(normal, randomState);
+#endif
+  
   return r;
 }

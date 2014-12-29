@@ -2,6 +2,7 @@ typedef enum {
   ShaderTypeDiffuse = 0,
   ShaderTypeEmitter,
   ShaderTypeGlossy,
+  ShaderTypeMirror,
 } ShaderType;
 
 typedef struct {
@@ -100,6 +101,7 @@ float3 glossyBRDF(float3 color, float3 normal, float3 microFacetNormal, float3 l
 }
 
 float3 diffuseBRDF(float3 color, float3 normal, float3 lightDir) {
+#warning Temporarily disabled diffuse BRDF
   return color * (float3)dot(lightDir, normal);
 }
 
@@ -110,10 +112,26 @@ float3 BRDF(float3 color, float3 normal, float3 microFacetNormal, float3 lightDi
       return diffuseBRDF(color, normal, lightDir);
     case ShaderTypeGlossy:
       return glossyBRDF(color, normal, microFacetNormal, lightDir, -eyeDir, material.roughness, material.IOR);
+    case ShaderTypeMirror:
+      return color;
     case ShaderTypeEmitter:
       return color;
     default:
       break;
   }
   return color;
+}
+
+ray surfaceRay(Material material, float3 position, float3 normal, ray incomingRay, PRNG *randomState) {
+  switch(material.shaderType) {
+    case ShaderTypeDiffuse:
+    case ShaderTypeGlossy:
+      return randomRayInHemisphere(position, normal, randomState);
+    case ShaderTypeMirror:
+    case ShaderTypeEmitter:
+      return reflectRay(incomingRay, position, normal);
+    default:
+      break;
+
+  }
 }
