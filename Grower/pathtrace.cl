@@ -33,15 +33,15 @@ __kernel void render(int width, int height, int seed, __global float4 *outputBuf
   int objID = -1;
   float t = nearestIntersection(r, objectCount, objects, &objID);
   
-  float4 color = (float4)(30);
+  float4 color = (float4)(10);
   
   if (t >= 0) {
     
   //  color *= surfaceColor(materials[objID], (float3)(0), (float3)(0));
     
-    for (int i = 0; i < 4; i++) {
+    for (int i = 0; i < 8; i++) {
       //End criteria
-      if (i == 3) {
+      if (i == 7) {
         color = (float4)(0, 0, 0, 1);
         break;
       }
@@ -61,11 +61,12 @@ __kernel void render(int width, int height, int seed, __global float4 *outputBuf
       r = surfaceRay(material, hitPoint, sphereNormal, r, &randomState);
       
       //Find reflected ray's nearest intersection
+      //objID = -1;
       t = nearestIntersection(r, objectCount, objects, &objID);
       if (t > 0) {
         
         //float3 vectrBetweenPoints = r.origin + t * r.dir - hitPoint;
-        //color.xyz *= (float3)min((1.0f/dot(vectrBetweenPoints, vectrBetweenPoints)), 1.0f);
+        //color.xyz *= (float3)(1.0f/(0.1 * dot(vectrBetweenPoints, vectrBetweenPoints)), 1.0f);
         
         if (surfaceIsEmitter(material)) {
           //Reflected ray hit light

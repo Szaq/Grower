@@ -133,7 +133,13 @@ ray surfaceRay(Material material, float3 position, float3 normal, ray incomingRa
     case ShaderTypeEmitter:
       return reflectRay(incomingRay, position, normal);
     case ShaderTypeTransparent:
-      return refractRay(incomingRay, position, normal);
+      if (dot(incomingRay.dir, normal) < 0) {
+          return refractRay(incomingRay, position, normal, 1.0f / material.IOR);
+      }
+      else {
+        return refractRay(incomingRay, position, normal, material.IOR);
+      }
+      
     default:
       break;
 

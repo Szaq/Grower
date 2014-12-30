@@ -21,16 +21,34 @@ ray reflectRay(ray r, float3 point, float3 normal) {
   return reflectedRay;
 }
 
-ray refractRay(ray r, float3 point, float3 normal) {
-  ray reflectedRay;
-  reflectedRay.origin = point;
-  reflectedRay.dir = normalize(-r.dir - 2 * normal * dot(r.dir, normal));
-  return reflectedRay;
+/**
+ *  Calculate perfect refracted ray.
+ *
+ *  @param r       Ray to refract
+ *  @param point   Point in global space
+ *  @param normal  Object's normal.
+ *  @param indexRation Ratio of incoming material IOR, to outgoing material IOR.
+ *
+ *  @return Refracted ray, or (empty ray if total internal reflection occured)
+ */
+ray refractRay(ray r, float3 point, float3 normal, float indexes) {
+  float dots = dot(r.dir, normal);
+  float sin2t = indexes * indexes * (1.0f - dots * dots);
+  
+  ray refractedRay;
+  refractedRay.origin = point;
+  if (sin2t <= 1.0f) {
+    refractedRay.dir = normalize(indexes * r.dir  + (indexes * dots  - sqrt(1.0f - sin2t)) * normal);
+  }
+  else {
+    refractedRay.dir = (float3)(0);
+  }
+  return refractedRay;
 }
 
 
 ray eyeRay(int x, int y, int width, int height, PRNG *randomState) {
-  float fovX = M_PI / 6;
+  float fovX = M_PI / 5;
   float fovY = height * fovX / width;
   
   ray r;

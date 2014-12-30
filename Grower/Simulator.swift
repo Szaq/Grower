@@ -101,15 +101,15 @@ class Simulator {
               [
                 -1000020, 0, 0, 1000000,
                 0, -1000010, 0, 1000000,
-                0, 0, -1001000, 1000000,
+                0, 0, -1000001, 1000000,
                 1000020, 0, 0, 1000000,
-                0, 0, 1000060, 1000000,
-                0,5,40,5,
-                0,-5,50,5,
-                10,0,30,5,
-                -10,0,30,5,
-                0, 1000150, 0, 1000000,
-                0,100,20,50,
+                0, 0, 1000040, 1000000,
+                0,1,30,3,
+                0,-6,30,4,
+                10,-2,30,3,
+                -1,-4,20,4,
+                0, 1000015, 0, 1000000,
+                0,12,30,2,
               ],
               readOnly: true,
               errorHandler: errorHandler("Positions buffer")) {
@@ -117,17 +117,17 @@ class Simulator {
             }
 
             if let materials = serializeToMemory([
-              Material(color: (0.5, 0, 0, 1), type: .Diffuse, IOR: 1.2, roughness:0, dummy: 0),
-              Material(color: (0.5, 0.5, 0.5, 1), type: .Diffuse, IOR: 1.2, roughness:0, dummy: 0),
-              Material(color: (0.4, 0.1, 0.5, 1), type: .Diffuse, IOR: 1.2, roughness:0, dummy: 0),
-              Material(color: (0, 0.5, 0, 1), type: .Diffuse, IOR: 1.2, roughness:0, dummy: 0),
-              Material(color: (0, 0, 0.5, 1), type: .Diffuse, IOR: 1.2, roughness:0, dummy: 0),
-              Material(color: (0, 0.5, 0.5, 1), type: .Diffuse, IOR: 1.2, roughness:0, dummy: 0),
-              Material(color: (0.5, 0.5, 0.5, 1), type: .Mirror, IOR: 0.0, roughness:0.3, dummy: 0),
+              Material(color: (0.75, 0, 0, 1), type: .Diffuse, IOR: 1.2, roughness:0, dummy: 0),
+              Material(color: (0.75, 0.75, 0.75, 1), type: .Diffuse, IOR: 1.2, roughness:0, dummy: 0),
+              Material(color: (0.75, 0.75, 0.75, 1), type: .Diffuse, IOR: 1.2, roughness:0, dummy: 0),
+              Material(color: (0, 0.75, 0, 1), type: .Diffuse, IOR: 1.2, roughness:0, dummy: 0),
+              Material(color: (0.75, 0.75, 0.75, 1), type: .Diffuse, IOR: 1.2, roughness:0, dummy: 0),
+              Material(color: (0, 0.5, 0.75, 1), type: .Diffuse, IOR: 1.2, roughness:0, dummy: 0),
+              Material(color: (0.75, 0.75, 0.75, 1), type: .Diffuse, IOR: 0.0, roughness:0.3, dummy: 0),
               Material(color: (0, 0.25, 0.5, 1), type: .Diffuse, IOR: 1.2, roughness:0, dummy: 0),
-              Material(color: (0.4, 0.25, 0.1, 1), type: .Diffuse, IOR: 1.2, roughness:0, dummy: 0),
-              Material(color: (0.25, 0.25, 0.25, 1), type: .Diffuse, IOR: 1.2, roughness:0, dummy: 0),
-              Material(color: (1, 1, 1, 1), type: .Emitter, IOR: 0.0, roughness:0, dummy: 0)
+              Material(color: (1, 1, 1, 1), type: .Transparent, IOR: 1.5, roughness:0, dummy: 0),
+              Material(color: (0.75, 0.75, 0.75, 1), type: .Emitter, IOR: 1.2, roughness:0, dummy: 0),
+              Material(color: (1, 1, 1, 1), type: .Diffuse, IOR: 0.0, roughness:0, dummy: 0)
               ],
               context, CL_MEM_READ_ONLY | CL_MEM_USE_HOST_PTR, errorHandler: errorHandler("Materials buffer")) {
               self.materials = materials
