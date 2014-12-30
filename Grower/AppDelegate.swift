@@ -20,6 +20,10 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
     // Insert code here to initialize your application
     step();
+    sim?.statsHandler = {
+      self.window.title = "Grower \($0)"
+    }
+    
     sim?.reportStats()
      }
 

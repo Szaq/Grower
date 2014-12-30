@@ -10,6 +10,17 @@ import Foundation
 import SwiftCL
 import OpenCL
 
+func time2str(time:CFTimeInterval) -> String {
+  let hours = Int(time) / 3600
+  let minutes = (Int(time) / 60) % 60
+  let seconds = Int(time) % 60
+  
+  return [(hours, "h"), (minutes, "m"), (seconds, "s")].reduce("", combine: { previous, current in
+    current.0 > 0 ? "\(previous)\(current.0)\(current.1)" : previous
+  })
+
+}
+
 class Simulator {
   
   let queue: CommandQueue!
@@ -23,10 +34,14 @@ class Simulator {
   let height: cl_int
   var samples: cl_int = 0
   var samplesInLastReport: cl_int = 0
+  let simulationStatTime: CFTimeInterval
+  
+  var statsHandler:((String)->Void)?
   
   init?(width:Int, height:Int) {
     self.width = cl_int(width)
     self.height = cl_int(height)
+    self.simulationStatTime = CACurrentMediaTime()
     
     if let context = Context(
       fromType: CL_DEVICE_TYPE_GPU,
@@ -123,9 +138,9 @@ class Simulator {
               Material(color: (0, 0.75, 0, 1), type: .Diffuse, IOR: 1.2, roughness:0, dummy: 0),
               Material(color: (0.75, 0.75, 0.75, 1), type: .Diffuse, IOR: 1.2, roughness:0, dummy: 0),
               Material(color: (0, 0.5, 0.75, 1), type: .Diffuse, IOR: 1.2, roughness:0, dummy: 0),
-              Material(color: (0.75, 0.75, 0.75, 1), type: .Diffuse, IOR: 0.0, roughness:0.3, dummy: 0),
-              Material(color: (0, 0.25, 0.5, 1), type: .Diffuse, IOR: 1.2, roughness:0, dummy: 0),
-              Material(color: (1, 1, 1, 1), type: .Transparent, IOR: 1.5, roughness:0, dummy: 0),
+              Material(color: (0.75, 0.75, 0.75, 1), type: .Diffuse, IOR: 0.1, roughness:0.3, dummy: 0),
+              Material(color: (1.0, 1.0, 1.0, 1), type: .Glossy, IOR: 0.0, roughness:0.3, dummy: 0),
+              Material(color: (1, 0.75, 0.2, 1), type: .Transparent, IOR: 1.5, roughness:0, dummy: 0),
               Material(color: (0.75, 0.75, 0.75, 1), type: .Emitter, IOR: 1.2, roughness:0, dummy: 0),
               Material(color: (1, 1, 1, 1), type: .Diffuse, IOR: 0.0, roughness:0, dummy: 0)
               ],
@@ -200,8 +215,12 @@ class Simulator {
       self.samplesInLastReport = self.samples
       let msamplesPerSec = Float(samplesSinceLastReport * self.width * self.height) / Float(timePassed * 1000000)
       let samplesPerPixel = Float(self.samples)
-      println("\(msamplesPerSec) MS/sec\t\(samplesPerPixel) S/px")
-      
+      let time = time2str(CACurrentMediaTime() - self.simulationStatTime)
+      let stats = "[\(time)]\t \(msamplesPerSec) MS/sec\t\(samplesPerPixel) S/px"
+      println(stats)
+      if let statsHandler = self.statsHandler {
+        statsHandler(stats)
+      }
       self.reportStats();
     }
   }
