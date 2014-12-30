@@ -121,7 +121,7 @@ class Simulator {
                 0, 0, 1000040, 1000000,
                 0,1,30,3,
                 0,-6,30,4,
-                10,-2,30,3,
+                10,-2,30,5,
                 -1,-4,20,4,
                 0, 1000015, 0, 1000000,
                 0,12,30,2,
@@ -139,7 +139,7 @@ class Simulator {
               Material(color: (0.75, 0.75, 0.75, 1), type: .Diffuse, IOR: 1.2, roughness:0, dummy: 0),
               Material(color: (0, 0.5, 0.75, 1), type: .Diffuse, IOR: 1.2, roughness:0, dummy: 0),
               Material(color: (0.75, 0.75, 0.75, 1), type: .Diffuse, IOR: 0.1, roughness:0.3, dummy: 0),
-              Material(color: (1.0, 1.0, 1.0, 1), type: .Glossy, IOR: 0.0, roughness:0.3, dummy: 0),
+              Material(color: (1.0, 1.0, 1.0, 1), type: .Glossy, IOR: 10, roughness:0.1, dummy: 0),
               Material(color: (1, 0.75, 0.2, 1), type: .Transparent, IOR: 1.5, roughness:0, dummy: 0),
               Material(color: (0.75, 0.75, 0.75, 1), type: .Emitter, IOR: 1.2, roughness:0, dummy: 0),
               Material(color: (1, 1, 1, 1), type: .Diffuse, IOR: 0.0, roughness:0, dummy: 0)

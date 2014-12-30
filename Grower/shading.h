@@ -92,13 +92,14 @@ float glossyGeometryImplicit(float3 normal, float3 lightDir, float3 viewDir) {
   return dot(normal, lightDir) * dot(normal, viewDir);
 }
 
-float3 glossyBRDF(float3 color, float3 normal, float3 microFacetNormal, float3 lightDir, float3 viewDir, float roughness,
+float3 glossyBRDF(float3 color, float3 normal, float3 lightDir, float3 viewDir, float roughness,
                  float refractiveIndex) {
+  float3 microFacetNormal = normalize(lightDir + viewDir);
   return color
   * max(0.0f, glossyFresnel(viewDir, lightDir, refractiveIndex))
-  * max(0.0f, glossyGeometryImplicit(normal, lightDir, viewDir))
+  * max(0.0f, glossyGeometryImplicit(microFacetNormal, lightDir, viewDir))
   * max(0.0f, glossyDistributionBlinPhong(normal, microFacetNormal, beckmannToBlinn(roughness)))
-  * 10 / (4 * dot(normal, lightDir) * dot (normal, viewDir));
+   / (4 * dot(normal, lightDir) * dot (normal, viewDir));
 }
 
 float3 diffuseBRDF(float3 color, float3 normal, float3 lightDir) {
@@ -107,12 +108,12 @@ float3 diffuseBRDF(float3 color, float3 normal, float3 lightDir) {
 }
 
 
-float3 BRDF(float3 color, float3 normal, float3 microFacetNormal, float3 lightDir, float3 eyeDir, Material material) {
+float3 BRDF(float3 color, float3 normal, float3 lightDir, float3 eyeDir, Material material) {
   switch (material.shaderType) {
     case ShaderTypeDiffuse:
       return diffuseBRDF(color, normal, lightDir);
     case ShaderTypeGlossy:
-      return glossyBRDF(color, normal, microFacetNormal, lightDir, -eyeDir, material.roughness, material.IOR);
+      return glossyBRDF(color, normal, lightDir, -eyeDir, material.roughness, material.IOR);
     case ShaderTypeMirror:
     case ShaderTypeTransparent:
       return color;

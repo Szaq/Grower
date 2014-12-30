@@ -74,7 +74,7 @@ __kernel void render(int width, int height, int seed, __global float4 *outputBuf
         }
         
         //Indirect lighting
-        color.xyz = BRDF(color.xyz, sphereNormal, randomVectorInHemisphere(sphereNormal, &randomState), r.dir, eyeDir, material);
+        color.xyz = BRDF(color.xyz, sphereNormal, r.dir, eyeDir, material);
       }
       else {
         //Reflected ray hit nothing
