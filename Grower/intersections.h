@@ -1,10 +1,6 @@
 //NEEDS ray.h
 
-float intersectSphere(ray r, float4 s);
-float nearestIntersection(ray r, int objectCount, OBJECT_GEOMETRIES objects, int *objID);
-
-
-float intersectSphere(ray r, float4 s) {
+static float intersectSphere(ray r, float4 s) {
   
   float3 centerToOriginVec = r.origin - s.xyz;
   
@@ -33,7 +29,7 @@ float intersectSphere(ray r, float4 s) {
   return d1;
 }
 
-float nearestIntersection(ray r, int objectCount, OBJECT_GEOMETRIES objects, int *objID) {
+static float nearestIntersection(ray r, int objectCount, OBJECT_GEOMETRIES objects, int *objID) {
   float minT = FLT_MAX;
   for (int id = 0; id < objectCount; id++) {
     float t = intersectSphere(r, objects[id]);
