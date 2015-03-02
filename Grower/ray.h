@@ -9,12 +9,7 @@ typedef struct {
 } ray;
 
 
-ray reflectRay(ray r, float3 point, float3 normal);
-ray eyeRay(int x, int y, int width, int height, PRNG *randomState);
-ray randomRayInHemisphere(float3 position, float3 normal, PRNG *randomState);
-
-
-ray reflectRay(ray r, float3 point, float3 normal) {
+static ray reflectRay(ray r, float3 point, float3 normal) {
   ray reflectedRay;
   reflectedRay.origin = point;
   reflectedRay.dir = normalize(r.dir - 2 * dot(r.dir, normal) * normal );
@@ -31,7 +26,7 @@ ray reflectRay(ray r, float3 point, float3 normal) {
  *
  *  @return Refracted ray, or (empty ray if total internal reflection occured)
  */
-ray refractRay(ray r, float3 point, float3 normal, float indexes) {
+static ray refractRay(ray r, float3 point, float3 normal, float indexes) {
   float dots = dot(r.dir, normal);
   float sin2t = indexes * indexes * (1.0f - dots * dots);
   
@@ -47,7 +42,7 @@ ray refractRay(ray r, float3 point, float3 normal, float indexes) {
 }
 
 
-ray eyeRay(int x, int y, int width, int height, PRNG *randomState) {
+static ray eyeRay(int x, int y, int width, int height, PRNG *randomState) {
   float fovX = M_PI / 5;
   float fovY = height * fovX / width;
   
@@ -59,7 +54,7 @@ ray eyeRay(int x, int y, int width, int height, PRNG *randomState) {
   return r;
 }
 
-ray randomRayInHemisphere(float3 position, float3 normal, PRNG *randomState) {
+static ray randomRayInHemisphere(float3 position, float3 normal, PRNG *randomState) {
   ray r;
   r.origin = position;
 #ifdef newBRDF

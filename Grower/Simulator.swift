@@ -83,6 +83,7 @@ class Simulator {
                       options: nil,
                       devices: nil,
                       errorHandler: errorHandler("Link")) {
+                        let buildInfo = program.getBuildInfo(context.getInfo().deviceIDs[0])
                       if let kernel = Kernel(program: program, name: "render", errorHandler: errorHandler("Kernel")) {
                         self.renderKernel = kernel
                       }
